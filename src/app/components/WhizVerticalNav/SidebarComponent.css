@@ -1,0 +1,75 @@
+/* SidebarComponent.css */
+
+/* Style for the sidebar icons */
+.sidebar-icon {
+  width: 30px;
+  height: 30px;
+}
+/* SidebarComponent.css */
+
+/* .menu-item {
+  transition: background-color 0.3s;
+} */
+
+.menu-item.selected-child {
+  color: blue; /* Text color for selected child */
+}
+
+.menu-item:hover {
+  background-color: blue; /* Light gray on hover */
+}
+.sidebar-item {
+  transition: color 0.3s;
+}
+
+.sidebar-item:hover {
+  color: blue !important; /* Blue color on hover */
+}
+/* Style for active menu items */
+.active-menu-item {
+  color: blue; /* Set the color for the selected menu item */
+  background-color: rgba(
+    0,
+    0,
+    255,
+    0.1
+  ); /* Optional: Add a background color for better visibility */
+}
+
+/* Style for badges next to menu items */
+.badge {
+  background: rgba(241, 241, 241, 255); /* Badge background color */
+  color: #000; /* Badge text color */
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+/* Customize the pro-sidebar inner background */
+.pro-sidebar > .pro-sidebar-inner {
+  background: transparent !important; /* Allow background color to be set dynamically */
+}
+
+/* Customize the submenu item background */
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+  background-color: transparent !important; /* Make background transparent for dynamic styling */
+}
+
+/* Adjust the spacing between child items */
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item > div > ul {
+  padding-top: 0px; /* Remove top padding */
+  padding-bottom: 0px; /* Remove bottom padding */
+}
+
+/* Optional: adjust margin if needed */
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+  margin: 0; /* Remove margin to reduce space between items */
+}
+
+/* Optional: adjust padding for submenu items */
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+  padding: 0 24px; /* Adjust padding as needed */
+}
+.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item:hover {
+  color: blue;
+}

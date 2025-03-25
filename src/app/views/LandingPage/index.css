@@ -1,0 +1,9 @@
+/* In your CSS file, if needed */
+.tooltip {
+  background-color: #333;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 12px;
+  z-index: 1000; /* Ensure it appears above other elements */
+}

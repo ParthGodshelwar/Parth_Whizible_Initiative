@@ -1,0 +1,44 @@
+/* CustomCarousel.css */
+.carousel-control-prev,
+.carousel-control-next {
+  z-index: 1; /* Ensure controls are above the carousel items */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: black;
+  border-radius: 50%;
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+  background-size: 50% 50%; /* Adjust size to fit the icon */
+}
+.highlight-red {
+  background-color: red !important;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlight-green {
+  background-color: green !important;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlight-yellow {
+  background-color: yellow !important;
+  color: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box_icon {
+  font-size: 28px; /* Increased size */
+  color: #0078d4; /* More vivid blue */
+}

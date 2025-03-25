@@ -1,0 +1,19 @@
+.field-container {
+  display: flex;
+  flex-direction: row; /* Or column, depending on the layout */
+  justify-content: space-between; /* Aligns fields evenly */
+  align-items: center;
+  padding: 10px; /* Adjust padding as needed */
+  width: 100%; /* Full width for each container */
+  box-sizing: border-box; /* Ensures padding is included in width */
+}
+
+.field-item {
+  flex: 1; /* Makes each field take equal space */
+  padding: 8px; /* Adjust padding for spacing */
+  margin: 0 8px; /* Spacing between items */
+  min-width: 100px; /* Ensures fields have a minimum size */
+  text-align: center; /* Centers the content inside each field */
+  background-color: #f9f9f9; /* Optional: background color for clarity */
+  border: 1px solid #ddd; /* Optional: border for clarity */
+}

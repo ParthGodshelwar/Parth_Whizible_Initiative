@@ -1,0 +1,21 @@
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  height: 100%; /* Adjust as needed */
+}
+
+.carousel-items {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.carousel-items > div {
+  flex: 0 0 100%; /* Full width of the container */
+}

@@ -1,0 +1,84 @@
+/* Custom styles for the progress bar in the table */
+
+.sbar1 {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px; /* Adjust height for all segments */
+  width: 40px; /* Adjust width for all segments */
+  cursor: pointer;
+  margin: 5px 0; /* Space between segments */
+  transform: rotate(90deg); /* Rotate each segment by 90 degrees */
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px; /* Reduced height for all segments */
+  cursor: pointer;
+  margin: 0;
+}
+.sbar1::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -10px;
+  width: 20px;
+  background-color: inherit;
+  border-left: 1px solid black;
+  border-radius: 50%;
+  z-index: 0;
+}
+.sbar1:first-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -10px; /* Adjust to align with the left side of the segment */
+  width: 20px; /* Width of the left semi-circle */
+  /* Match background color of the first segment */
+  border-left: 1px solid black; /* Left border for the semi-circle */
+  border-top-left-radius: 10px; /* Rounded top left */
+  border-bottom-left-radius: 10px; /* Rounded bottom left */
+  z-index: 0; /* Ensure it's behind the main segment */
+}
+.sbar1:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.sbar-green1 {
+  background-color: #58b828;
+}
+
+.sbar-orange1 {
+  background-color: #f5c330;
+  /* Increased height for the orange segment */
+  display: flex; /* Ensure flex display for vertical centering */
+  justify-content: center; /* Center align text vertically */
+  align-items: center;
+  position: relative;
+  z-index: 2; /* Ensure orange segment is above others */
+}
+.sbar-orange:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -10px; /* Adjust to align with the right side of the segment */
+  width: 20px; /* Width of the right semi-circle */
+  background-color: #f5c330; /* Match background color of the orange segment */
+  border-right: 1px solid black; /* Right border for the semi-circle */
+  border-radius: 50%; /* Make it a semi-circle */
+  z-index: -1; /* Send the semi-circle behind the main segment */
+}
+.sbar-red1 {
+  background-color: red;
+  z-index: 1;
+}
+
+.sbar-gray {
+  z-index: 0;
+  background-color: #b5b4b4;
+}

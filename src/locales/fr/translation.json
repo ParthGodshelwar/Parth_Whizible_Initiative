@@ -1,0 +1,18 @@
+{
+  "collaborate_with_cross_teams": "Collaborer avec des équipes transversales",
+  "username_label": "Nom d'utilisateur*",
+  "enter_username_placeholder": "Entrez votre nom d'utilisateur",
+  "email_label": "Adresse e-mail*",
+  "email_placeholder": "vous@entreprise.com",
+  "reset_button": "Réinitialiser",
+  "cancel_button": "Annuler",
+  "password_label": "Mot de passe*",
+  "password_placeholder": "Entrez le mot de passe",
+  "forgot_password_link": "Mot de passe oublié?",
+  "sign_in_button": "Se connecter",
+  "two_fa_otp_link": "2FA-OTP",
+  "master_link": "Maître",
+  "footer_link": "www.winitiative.com",
+  "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  "Enter_OTP": "Enter OTP"
+}

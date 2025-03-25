@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+  .nav-tabs-wrap {
+    flex-wrap: wrap;
+  }
+  .nav-tabs-wrap .nav-link {
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowed content */
+    text-overflow: ellipsis; /* Show ellipsis (...) when text overflows */
+    max-width: calc(100% / 3); /* Adjust based on the number of tabs per row */
+  }
+}

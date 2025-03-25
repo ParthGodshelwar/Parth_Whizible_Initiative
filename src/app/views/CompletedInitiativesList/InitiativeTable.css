@@ -1,0 +1,34 @@
+.icon-button-container {
+  display: inline-block;
+  margin: 0 5px;
+}
+/* CSS Added By Madhuri.K start here */
+.MuiIconButton-root {
+  padding: 2px; /* Adjust padding to make icons smaller */
+}
+
+.MuiSvgIcon-root {
+  font-size: 18px; /* Adjust font size to make icons smaller */
+}
+
+.MuiSvgIcon-root {
+  font-size: 17px; /* Adjust font size to make icons smaller */
+}
+
+.ms-List-surface{
+  font-family: Roboto, Helvetica, Arial, sans-serif !important;
+}
+.root-145:hover {
+  background: rgb(243, 242, 241);
+  color: black;
+}
+.root-145{
+  color: black;
+}
+p, div {
+  font-size: 13px;
+  font-weight: 400;
+  color: black;
+}
+
+/* CSS Added By Madhuri.K end here */

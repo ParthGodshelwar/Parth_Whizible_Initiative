@@ -1,0 +1,20 @@
+/* AlertNotification.css */
+.vertical-carousel .carousel-item {
+  display: block;
+  transition: transform 0.8s ease-in-out;
+  transform: translateY(100%);
+}
+
+.vertical-carousel .carousel-item.active {
+  transform: translateY(0);
+}
+
+.vertical-carousel .carousel-item-next,
+.vertical-carousel .carousel-item-prev {
+  transform: translateY(100%);
+}
+
+.vertical-carousel .carousel-item-next.carousel-item-start,
+.vertical-carousel .carousel-item-prev.carousel-item-end {
+  transform: translateY(-100%);
+}

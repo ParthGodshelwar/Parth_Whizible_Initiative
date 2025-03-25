@@ -1,0 +1,19 @@
+.progress_grid1 .progress-bar {
+  background-color: #28a745; /* Green */
+}
+
+.progress_grid2 .progress-bar {
+  background-color: #17a2b8; /* Blue */
+}
+
+.progress_grid3 .progress-bar {
+  background-color: #ffc107; /* Yellow */
+}
+
+.progress_grid4 .progress-bar {
+  background-color: #dc3545; /* Red */
+}
+
+.progress_grid5 .progress-bar {
+  background-color: #6f42c1; /* Purple */
+}

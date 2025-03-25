@@ -1,0 +1,68 @@
+/*Top Filters*/
+
+.init_filtersList {
+  gap: 20px;
+}
+
+.init_filtersList li {
+  border: 1px solid #b3b3b3;
+  border-radius: 5px;
+}
+
+.init_filtersList li a {
+  text-decoration: none;
+  color: #414042;
+  display: block;
+}
+
+.init_filtersList li:hover,
+.init_filtersList li.active {
+  border-color: #414042;
+}
+
+.init_filtersList li:hover a,
+.init_filtersList li.active a {
+  color: #414042;
+}
+
+.init_filtersList li:hover a span.fltrcount,
+.init_filtersList li.active a span.fltrcount {
+  background: #414042;
+}
+
+.init_filtersList li:nth-child(1) a span.fltrcount {
+  background: #81cf09;
+}
+
+.init_filtersList li:nth-child(2) a span.fltrcount {
+  background: #2b55ce;
+}
+
+.init_filtersList li:nth-child(3) a span.fltrcount {
+  background: #f55d30;
+}
+
+.init_filtersList li:nth-child(4) a span.fltrcount {
+  background: #f5c330;
+}
+
+.init_filtersList li.active a {
+  font-weight: 600;
+}
+
+span.fltrcount {
+  /* Auto layout */
+  padding: 6px 8px;
+  gap: 10px;
+  width: 36px;
+  height: 34px;
+  display: inline-block;
+  background: #b3b3b3;
+  color: #ffffff;
+}
+
+span.fltrtitle {
+  padding: 10px;
+}
+
+/*End Top Filters*/

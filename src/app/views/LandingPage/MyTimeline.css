@@ -1,0 +1,19 @@
+.highlighted-date {
+  position: relative;
+}
+
+.highlighted-date .circle {
+  position: absolute;
+  top: 70%; /* Move the circle higher */
+  left: 50%;
+  transform: translate(-50%, -80%); /* Adjust the transform to fine-tune the position */
+  background-color: inherit;
+  border-radius: 0%;
+  height: 24px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 1;
+}

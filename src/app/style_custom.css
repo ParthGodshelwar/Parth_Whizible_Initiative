@@ -1,0 +1,177 @@
+/* CSS Added by Madhuri.K  */
+.fw-400 {
+  font-weight: 400;
+}
+.fw-500 {
+  font-weight: 500;
+}
+.ms-Label{
+  font-weight: 400;
+  font-size: 13px;
+}
+.ms-TextField-field, .ms-Dropdown-title, .ms-TextField-fieldGroup{
+  border-color: #cdcdcd;
+  color: #a7a7a7;
+  border-radius: 3px;
+}
+.readOnlyPlaceholder-150, .field-188{
+  color: #a7a7a7;
+}
+.comment-title {
+  display: none !important;
+}
+.hr-style {
+  display: none !important;
+}
+.title_name {
+  font-size: 16px !important;
+  font-weight: 400;
+  color: #6d6d6d;
+}
+.txt_space {
+  padding-left: 20px;
+}
+.wCard{
+  width: 325px;
+}
+.yelllowBrdr {
+  border: 1px solid #F5C330;
+}
+.greenBrdr {
+  border: 1px solid #03BA28;
+}
+.graybg {
+  background: #E7EDF0 !important;
+}
+ /* Note CSS start here  */
+.bottom-position{
+  position: fixed;
+  bottom: 5%;
+  padding: 5px 10px;
+  width: 100%;
+}
+ /* Note CSS end here  */
+
+.graybg{
+  background-color: #ddd;
+}
+.closelink:hover {
+  text-decoration: none !important;
+  color: #2b55ce;
+}
+.graphSection{
+  width: 100%;
+  height: 250px;
+}
+.DrawergraphSection{
+  width: 100%;
+  height: 350px;
+}
+.chartAccordion .accordion-item {
+  /* border: none;  */
+  outline: none;
+}
+.chartAccordion .accordion-button{
+  padding: 10px;
+  outline: none;
+  font-size: 14px;
+}
+.chartAccordion .accordion-button:focus {
+  border: 1px solid #7f84e0;
+  box-shadow: none;
+}
+.chartAccordion .accordion-button{
+  border: none;
+  box-shadow: none;
+}
+.chartAccordion .accordion-button:not(.collapsed){
+  background-color: #fff;
+}
+.chartAccordion .progress{
+  height: 15px !important;
+}
+.CardViewIconImg{
+  border-radius: 50%;
+}
+/* Graphs CSS Start here */
+.project-bar{
+  border: 1px solid #CCCCCC;
+  padding: 40px;
+  position: relative;
+  width: 100%;
+  height: 350px; 
+}
+/* Graphs CSS End here */
+/* .MuiBox-root{
+  background-color: #fff;
+} */
+ /* Mandatory Asterisk */
+label.required::after {
+  content: " *";
+  color: red; /* Red color for mandatory field asterisk */
+}
+.legend-box {
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+
+}
+
+.l-name {
+  font-size: 12px;
+  color: #7c7c7c;
+}
+
+.icon-button-container {
+  display: inline-block;
+  margin: 0 5px;
+}
+/* Added by Gauri to remove horizontal scroll and reduce font size */
+.ms-DetailsList{
+  overflow-x: hidden;
+}
+.ms-List .MuiIconButton-root {
+  padding: 2px; /* Adjust padding to make icons smaller */
+}
+.ms-List .MuiSvgIcon-root {
+  font-size: 17px; /* Adjust font size to make icons smaller */
+}
+.ms-DetailsHeader-cellName{
+  font-weight: 500;
+}
+.table thead th {
+  font-weight: 500;
+}
+/* End of Added by Gauri to remove horizontal scroll and reduce font size */
+
+/* .root-172 {
+  width: 25px;
+} */
+.flex-1{
+  flex: 1;
+}
+/* .wCard .Action_col{
+  width: 75px;
+} */
+
+.icon_color{
+  color: #6d6d6d;
+}
+.boxStyle{
+  background-color: #fff;
+}
+.IM_fontIcnSize{
+  width: 23px;
+  margin: -5px;
+}
+.cursorLink{
+  cursor: pointer;
+}
+.initiative-status-management .ms-Stack-inner{
+  margin: 0;
+}
+.note-Icn{
+  font-size: 14px;
+  color: #16c60c;
+  margin-bottom: 5px;
+}

@@ -1,0 +1,124 @@
+/* Custom styles for the progress bar */
+
+.progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.progress-bar-wrapper {
+  display: flex;
+  align-items: center;
+  width: 80%; /* Adjust width as needed */
+}
+
+.sbar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 12px; /* Reduced height for all segments */
+  cursor: pointer;
+  margin: 0;
+}
+
+.sbar span {
+  position: relative;
+  z-index: 1;
+}
+
+.sbar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -10px;
+  width: 15px; /* Adjusted width for the left semi-circle */
+  background-color: inherit;
+  border-left: 1px solid #e0e0e0;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.sbar:first-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -10px; /* Adjust to align with the left side of the segment */
+  width: 15px; /* Width of the left semi-circle */
+  border-left: 1px solid #e0e0e0; /* Left border for the semi-circle */
+  border-top-left-radius: 7.5px; /* Rounded top left */
+  border-bottom-left-radius: 7.5px; /* Rounded bottom left */
+  z-index: 0; /* Ensure it's behind the main segment */
+}
+
+.sbar:last-child {
+  border-top-right-radius: 7.5px;
+  border-bottom-right-radius: 7.5px;
+}
+
+.sbar-orange {
+  background-color: #f5c330;
+  height: 17px; /* Increased height for the orange segment */
+  display: flex; /* Ensure flex display for vertical centering */
+  justify-content: center; /* Center align text vertically */
+  align-items: center;
+  position: relative;
+  z-index: 2; /* Ensure orange segment is above others */
+}
+
+.sbar-orange:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -10px; /* Adjust to align with the right side of the segment */
+  width: 15px; /* Width of the right semi-circle */
+  background-color: #f5c330; /* Match background color of the orange segment */
+  border-right: 1px solid #e0e0e0; /* Right border for the semi-circle */
+  border-radius: 50%; /* Make it a semi-circle */
+  z-index: -1; /* Send the semi-circle behind the main segment */
+}
+.sbar-orange1 {
+  background-color: rgb(242, 98, 98);
+  height: 17px; /* Increased height for the orange segment */
+  display: flex; /* Ensure flex display for vertical centering */
+  justify-content: center; /* Center align text vertically */
+  align-items: center;
+  position: relative;
+  z-index: 2; /* Ensure orange segment is above others */
+}
+
+.sbar-orange1:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -10px; /* Adjust to align with the right side of the segment */
+  width: 15px; /* Width of the right semi-circle */
+  background-color: rgb(242, 98, 98); /* Match background color of the orange segment */
+  border-right: 1px solid #e0e0e0; /* Right border for the semi-circle */
+  border-radius: 50%; /* Make it a semi-circle */
+  z-index: -1; /* Send the semi-circle behind the main segment */
+}
+.sbar-small {
+  flex: 1;
+}
+
+.sbar-large {
+  flex: 3;
+}
+
+.sbar-green {
+  background-color: #03bb29;
+}
+
+.sbar-red {
+  background-color: rgb(242, 98, 98);
+}
+
+.sbar-gray {
+  background-color: #b5b4b4;
+}

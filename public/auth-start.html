@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Teams Authentication</title>
+    <script src="https://alcdn.msauth.net/browser/2.18.0/js/msal-browser.min.js"></script>
+    <script src="https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function () {
+        const msalConfig = {
+          auth: {
+            clientId: "73271fa0-1a32-4208-a555-599516bb1c65",
+            authority: "https://login.microsoftonline.com/de77ee43-8ceb-489c-9e8a-024f2c4e1a62",
+            redirectUri: window.location.origin + "/auth-end.html"
+          }
+        };
+
+        const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+        msalInstance
+          .loginPopup({ scopes: ["User.Read"] })
+          .then((response) => {
+            microsoftTeams.authentication.notifySuccess(response);
+          })
+          .catch((error) => {
+            microsoftTeams.authentication.notifyFailure(error);
+          });
+      });
+    </script>
+  </body>
+</html>

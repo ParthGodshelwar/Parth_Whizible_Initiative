@@ -1,0 +1,7 @@
+.icon-button-container {
+  display: inline-block;
+  margin: 0 5px;
+}
+.details-list-container {
+  overflow-y: hidden; /* Hide vertical scrollbar */
+}

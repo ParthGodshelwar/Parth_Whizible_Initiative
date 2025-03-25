@@ -1,0 +1,24 @@
+.icon-button-container {
+  display: inline-block;
+  margin: 0 5px;
+}
+.ms-DetailsRow-cell {
+  padding-left: 0;
+}
+/* CSS Added By Madhuri.K start here */
+.ms-List-surface{
+  font-family: Roboto, Helvetica, Arial, sans-serif !important;
+}
+.root-145:hover {
+  background: rgb(243, 242, 241);
+  color: black;
+}
+.root-145{
+  color: black;
+}
+p, div {
+  font-size: 13px;
+  font-weight: 400;
+  color: black;
+}
+/* CSS Added By Madhuri.K end here */

@@ -1,0 +1,43 @@
+.icon-button-container {
+  display: inline-block;
+  margin: 0 5px;
+}
+/* Added by Gauri to remove horizontal scroll and reduce font size */
+.ms-DetailsList{
+  overflow-x: hidden;
+}
+.ms-List .MuiIconButton-root {
+  padding: 2px; /* Adjust padding to make icons smaller */
+}
+.ms-List .MuiSvgIcon-root {
+  font-size: 18px; /* Adjust font size to make icons smaller */
+}
+.ms-List .MuiSvgIcon-root {
+  font-size: 17px; /* Adjust font size to make icons smaller */
+}
+.ms-DetailsHeader-cellName{
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.ms-List-surface{
+  font-family: Roboto, Helvetica, Arial, sans-serif !important;
+}
+.root-145:hover {
+  background: rgb(243, 242, 241);
+  color: black;
+}
+.root-145{
+  color: black;
+}
+p, div {
+  font-size: 13px;
+  font-weight: 400;
+  color: black;
+}
+.root-289 {
+  color: black;}
+  .root-144 {
+    color: black;
+  }
+/* End of Added by Gauri to remove horizontal scroll and reduce font size */

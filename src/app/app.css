@@ -1,0 +1,21 @@
+a,
+p,
+span,
+div {
+  font-size: 12px;
+}
+p,
+div {
+  font-size: 12px;
+  font-weight: 200;
+}
+hr {
+  margin: 0.5rem 0; }
+
+  .MuiBox-root {scrollbar-width: thin;}
+  .CardViewIniImg{
+    border-radius: 50%;
+  }
+  .MuiPaper-root{
+    scrollbar-width: thin;
+  }

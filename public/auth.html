@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Authentication</title>
+    <script src="https://alcdn.msauth.net/browser/2.21.0/js/msal-browser.min.js"></script>
+  </head>
+  <body>
+    <script>
+      const msalConfig = {
+        auth: {
+          clientId: "73271fa0-1a32-4208-a555-599516bb1c65",
+          authority: "https://login.microsoftonline.com/de77ee43-8ceb-489c-9e8a-024f2c4e1a62",
+          redirectUri: window.location.origin + "/auth-end.html"
+        },
+        cache: {
+          cacheLocation: "sessionStorage",
+          storeAuthStateInCookie: false
+        }
+      };
+
+      const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+      async function authenticate() {
+        try {
+          const response = await msalInstance.acquireTokenSilent({
+            scopes: ["api://YOUR_API_ID/react_UserAccess"]
+          });
+
+          // Post message to parent with the access token
+          window.parent.postMessage({ type: "auth", accessToken: response.accessToken }, "*");
+        } catch (error) {
+          console.error("Authentication error:", error);
+        }
+      }
+
+      authenticate();
+    </script>
+  </body>
+</html>

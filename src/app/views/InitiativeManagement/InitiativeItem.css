@@ -1,0 +1,196 @@
+.initiative-item {
+  display: flex;
+  justify-content: space-between; /* Ensure alignment with the table header */
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  /* Add any additional styles as needed */
+}
+
+.initiative-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.initiative-details {
+  text-align: right;
+}
+
+.due-in {
+  margin-right: 8px; /* Add spacing between dueIn and icons */
+}
+
+span.usernameshort {
+  /* width: 50px; */
+  width: 35px;
+  /* height: 50px; */
+  height: 35px;
+  /* line-height: 50px; */
+  line-height: 32px;
+  color: #fff;
+  display: block;
+  border-radius: 100%;
+  text-align: center;
+  margin: 20px 0 0;
+  border: 1px solid #eee;
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+span.inner_username {
+  /* width: 50px;
+    height: 50px;
+    line-height: 50px; */
+  width: 35px;
+  height: 35px;
+  line-height: 32px;
+  color: #fff;
+  display: block;
+  border-radius: 100%;
+  text-align: center;
+  margin: 5px 0 0;
+  border: 1px solid #eee;
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+span.span_reply {
+  color: #4263c1;
+  font-style: italic;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.circle-bggreen {
+  background: #4bc5c6;
+}
+
+.circle-bgblue {
+  background: #4263c1;
+}
+
+h5.card-title.coment_header {
+  /* font-size: 14px; */
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.coment_content {
+  /* font-size: 12px; */
+  font-size: 11px !important;
+}
+
+span.commentdate {
+  font-size: 10px;
+  font-weight: 400;
+  font-style: italic;
+  /* float: right; */
+}
+
+.commenttext {
+  border: 1px solid #ccc;
+}
+
+.comment_Actions button {
+  color: #4263c1;
+}
+
+.comment_Actions button:hover {
+  color: #2b55ce;
+}
+
+.commentbox .commentbox {
+  margin-left: 60px;
+}
+
+/* .commentbox .card-body {
+    border: 1px solid #ccc;
+} */
+
+.replycomment button i {
+  margin-right: 10px;
+}
+
+.replycomment {
+  margin: 15px 0 10px;
+}
+
+/* Nature of Initiatives page css starts here */
+.offcanvas-body {
+  padding: var(--bs-offcanvas-padding-y) var(--bs-offcanvas-padding-x);
+}
+
+.offcanvas-50 {
+  --bs-offcanvas-width: 50%;
+}
+
+.offcanvas-65 {
+  --bs-offcanvas-width: 65%;
+}
+
+.offcanvas-70 {
+  --bs-offcanvas-width: 70%;
+}
+
+.offcanvas-90 {
+  --bs-offcanvas-width: 90%;
+}
+
+.offcanvas-85 {
+  --bs-offcanvas-width: 85%;
+}
+
+/*    form Discussions start */
+.allConvDetails .card-footer {
+  width: 67%;
+}
+
+.circle-bgpink {
+  background: #f578cf;
+}
+.left-right-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-side,
+.right-side {
+  flex: 1;
+}
+
+.circle-bgorange {
+  background: #f98843;
+}
+
+.circle-bgyellow {
+  background: #f9e143;
+}
+
+.usrimg + .form-group {
+  flex-grow: 1;
+}
+.card-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%; /* Adjust width based on your layout needs */
+  padding: 10px; /* Adjust padding as needed */
+  background-color: #f8f9fa; /* Example background color */
+}
+.initiative-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 17px;
+}
+
+.MuiIconButton-root {
+  padding: 2px; /* Adjust padding to make icons smaller */
+}
+
+.icon-button-container .MuiSvgIcon-root {
+  font-size: 18px; /* Adjust font size to make icons smaller */
+}

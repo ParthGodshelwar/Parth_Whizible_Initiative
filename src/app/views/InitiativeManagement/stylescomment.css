@@ -1,0 +1,8 @@
+.postComment {
+  width: 100%; /* Make the textarea full width */
+  padding: 10px; /* Add some padding */
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 14px; /* Font size */
+  /* Additional styles as needed */
+}

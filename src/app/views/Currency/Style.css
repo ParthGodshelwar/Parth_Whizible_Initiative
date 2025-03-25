@@ -1,0 +1,114 @@
+#root{
+    background-color: #fff !important;
+}
+.accor_textsize{
+    font-size: 15px !important;
+}
+.bglightblue {
+    background: #E7EDF0;
+}
+.linkIsSelected-107:hover{
+    background: #E7EDF0;
+}
+.linkIsSelected-107{
+    margin-left: 10px;
+}
+.ms-Pivot-text text-104{
+    font-size: 13px;
+    font-weight: 400;
+}
+table thead tr th{
+    font-weight: 600;
+}
+.MuiAccordionSummary-root{
+    background-color: #f2f2f2;
+}
+/* .bg_pagin{
+    background-color: #ffffff;
+    border: 1px solid #410042;
+    border-radius: 4px;
+    height: 32px;
+} */
+.css-1xylxj1-MuiTypography-root-MuiLink-root {
+    color: black;
+    text-decoration-color:black;
+}
+    .main-143 {
+        width: 50%;
+    }
+    .ms-Panel-navigation{
+        background-color: #f2f2f2;
+    }
+    .ms-Panel-headerText{
+        font-size: 15px;
+        font-weight: 500;
+    }
+    .ms-TextField-fieldGroup {
+        border: 1px solid #ddd !important;
+        border-radius: 7px !important;
+    }
+
+    .ms-TextField-fieldGroup:active {
+        border: 1px solid #ddd !important;
+        border-radius: 7px !important;
+    }
+    .fieldGroup-139{
+        border: 1px solid #ddd !important;
+        border-radius: 7px !important;
+    }
+.ms-Label{
+    font-weight: 400;
+}
+.ms-Panel-main{
+    width: 65%;
+}
+.borderbtnbgblue {
+    border: 1px solid #2B55CE;
+    background: #2B55CE;
+    color: #ffffff !important;
+}
+
+  .ms-StackItem > .form-label:after {
+    content: "*" !important;
+    color: #ff0000;
+}
+  .ms-StackItem > .form-label:after {
+    content: "*" !important;
+    color: #ff0000;
+}
+
+.HeaderTxt_Grid{
+    display: 'flex';
+    margin-Bottom: '10px';
+    background-color: #F9F9F9;
+    padding: 5px;
+}
+.IcnStyle{
+    width: 15px;
+}
+.accordionbg{
+    background-color: #f2f2f2;
+}
+.font-weight-600{
+    font-weight: 600;
+}
+.css-10vjoz-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 5px;
+}
+.css-m6cb7p-MuiTableCell-root {
+    padding: 0px 0px 3px 0px;
+}
+  .bulb_icon{
+    color: #a9a6a6;
+    font-size: 23px;
+    background-color: #f3ff22;
+    border-radius: 100%;
+  }
+  .css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root:hover {
+    background-color: #fff;
+}
+.text_blue{
+color: #3476eb;
+font-size: 13.5px;
+
+}
