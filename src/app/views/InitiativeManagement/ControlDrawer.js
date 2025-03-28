@@ -11,7 +11,7 @@ import {
   FormControl,
   InputLabel,
   Button,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import dayjs from "dayjs";
@@ -46,11 +46,15 @@ const ControlDrawer = ({
   isEditing,
   setIsAdd,
   isAdd,
-  natureOfInitiativeName // Add this
+  natureOfInitiativeName, // Add this
 }) => {
   const [controlData, setControlData] = useState([]);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [businessUnitData, setBusinessUnitData] = useState([]);
+  const [deliveryUnitData, setDeliveryUnitData] = useState([]);
+  const [deliveryTeamData, setDeliveryTeamData] = useState([]);
+
   const userdata = JSON.parse(sessionStorage.getItem("user"));
   const employeeId = userdata?.employeeId;
   const natureofDemandID = natureOfInitiativeName; // Use the passed prop directly
@@ -59,7 +63,104 @@ const ControlDrawer = ({
     onClose();
   };
   // Fetch data from API
+
+  useEffect(() => {
+    if (open) {
+      fetchControlData();
+    }
+  }, [open, NOIID]);
+
+  const fetchBusineesDDL = async () => {
+    try {
+      const response = await fetch(
+        // https://pms.whizible.com/APIWithJWTToken/api/InitiativeListFilter/GetDUDT
+        `${process.env.REACT_APP_BASEURL_ACCESS_CONTROL1}/api/InitiativeListFilter/GetBGOUDUDT`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+          },
+        }
+      );
+      const result = await response.json();
+      setBusinessUnitData(result?.data?.listBusinessGroupEntity);
+
+      // Initialize form data state
+    } catch (error) {
+      console.error("Error fetching control data:", error);
+    } finally {
+    }
+  };
+  useEffect(() => {
+    fetchBusineesDDL();
+  }, []);
+
+  // useEffect(() => {
+  //   // alert("1");
+  //   console.log("controlData", controlData);
+  // }, [controlData]);
+
+  // useEffect(() => {
+  //   if (businessUnitData.length > 0 && controlData.length > 0) {
+  //     setControlData((prevData) => {
+  //       if (!prevData || prevData.length === 0) return prevData; // Ensure controlData exists
+
+  //       const updatedData = prevData.map((item) =>
+  //         item.actualFieldName === "DeliveryUnit"
+  //           ? {
+  //               ...item,
+  //               initiativeDetailDropDownEntity: businessUnitData.map(
+  //                 (unit) => ({
+  //                   id: unit?.resourcePoolID,
+  //                   name: unit?.resourcePoolName,
+  //                   fieldName: "DeliveryUnit",
+  //                 })
+  //               ),
+  //             }
+  //           : item
+  //       );
+
+  //       // Only update if data has actually changed to prevent infinite loop
+  //       if (JSON.stringify(prevData) === JSON.stringify(updatedData)) {
+  //         return prevData;
+  //       }
+
+  //       return updatedData;
+  //     });
+  //   }
+  // }, [businessUnitData, controlData]);
+
+  useEffect(() => {
+    if (businessUnitData.length > 0 && controlData.length > 0) {
+      setControlData((prevData) => {
+        if (!prevData || prevData.length === 0) return prevData; // Ensure controlData exists
+
+        const updatedData = prevData.map((item) =>
+          item.actualFieldName === "BusinessUnitID"
+            ? {
+                ...item,
+                initiativeDetailDropDownEntity: businessUnitData.map(
+                  (unit) => ({
+                    id: unit?.businessGroupID,
+                    name: `${unit?.businessGroup}11`,
+                    fieldName: "BusinessUnitID",
+                  })
+                ),
+              }
+            : item
+        );
+
+        // Only update if data has actually changed to prevent infinite loop
+        if (JSON.stringify(prevData) === JSON.stringify(updatedData)) {
+          return prevData;
+        }
+
+        return updatedData;
+      });
+    }
+  }, [businessUnitData, controlData]);
+
   const fetchControlData = async () => {
+    debugger;
     if (!NOIID) return;
     setLoading(true);
     try {
@@ -67,8 +168,8 @@ const ControlDrawer = ({
         `${process.env.REACT_APP_BASEURL_ACCESS_CONTROL1}/api/InitiativeAddNew/GetControlForAddNew?NOIID=${NOIID}&UserID=${employeeId}`,
         {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`
-          }
+            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+          },
         }
       );
       const result = await response.json();
@@ -84,7 +185,8 @@ const ControlDrawer = ({
       // Initialize form data state
       const initialData = {};
       sortedControls.forEach((field) => {
-        initialData[field.actualFieldName] = field.controlType === "Date" ? null : "";
+        initialData[field.actualFieldName] =
+          field.controlType === "Date" ? null : "";
       });
       setFormData(initialData);
     } catch (error) {
@@ -94,21 +196,99 @@ const ControlDrawer = ({
     }
   };
 
-  useEffect(() => {
-    if (open) {
-      fetchControlData();
-    }
-  }, [open, NOIID]);
-
   // Modified function by Gauri to fix numeric fields issue on 20 Mar 2025
   const handleChange = (name, value) => {
     console.log(`Updating field: ${name} with value: ${value}`); // Debugging log
-
     setFormData((prev) => {
       const updatedFormData = { ...prev, [name]: value };
       console.log("Updated formData:", updatedFormData); // Log to see if it's updating
       return updatedFormData;
     });
+
+    // Added by Parth.G for dependent dropdowns issue on 25 Mar 2025
+    if (name === "BusinessUnitID") {
+      const selectedUnit = businessUnitData.find(
+        (unit) => unit.businessGroupID === value
+      );
+      const newDeliveryTeams = selectedUnit
+        ? selectedUnit?.listOrganizationUnitEntity?.map((team) => ({
+            fieldName: "OrganizationUnit",
+            id: team?.locationID.toString(),
+            name: team?.location,
+          }))
+        : [];
+
+      // setDeliveryUnitData(
+      //   selectedUnit.listOrganizationUnitEntity?.flatMap(
+      //     (team) => team?.listDeliveryUnitEntity
+      //   ) || []
+      // );
+      setDeliveryUnitData(selectedUnit?.listOrganizationUnitEntity || []);
+
+      setControlData((prevData) => {
+        const updatedData = prevData.map((item) =>
+          item.actualFieldName === "OrganizationUnit"
+            ? {
+                ...item,
+                initiativeDetailDropDownEntity: newDeliveryTeams,
+              }
+            : item
+        );
+        return updatedData;
+      });
+    }
+
+    // error state set wrong
+    if (name === "OrganizationUnit") {
+      const selectedUnit = deliveryUnitData.find(
+        (unit) => `${unit.locationID}` === value
+      );
+      const newDeliveryTeams = selectedUnit
+        ? selectedUnit?.listDeliveryUnitEntity?.map((team) => ({
+            fieldName: "DeliveryUnit",
+            id: team?.resourcePoolID.toString(),
+            name: team?.resourcePoolName,
+          }))
+        : [];
+
+      setDeliveryTeamData(selectedUnit?.listDeliveryUnitEntity || []);
+      setControlData((prevData) => {
+        const updatedData = prevData.map((item) =>
+          item.actualFieldName === "DeliveryUnit"
+            ? {
+                ...item,
+                initiativeDetailDropDownEntity: newDeliveryTeams,
+              }
+            : item
+        );
+        return updatedData;
+      });
+    }
+
+    if (name === "DeliveryUnit") {
+      const selectedUnit = deliveryTeamData.find(
+        (unit) => `${unit.resourcePoolID}` === value
+      );
+      const newDeliveryTeams = selectedUnit
+        ? selectedUnit?.listDeliveryTeamEntity?.map((team) => ({
+            fieldName: "DeliveryTeam",
+            id: team?.groupID.toString(),
+            name: team?.groupName,
+          }))
+        : [];
+
+      setControlData((prevData) => {
+        const updatedData = prevData.map((item) =>
+          item.actualFieldName === "DeliveryTeam"
+            ? {
+                ...item,
+                initiativeDetailDropDownEntity: newDeliveryTeams,
+              }
+            : item
+        );
+        return updatedData;
+      });
+    }
   };
 
   // Function to render label with red asterisk for mandatory fields
@@ -116,7 +296,9 @@ const ControlDrawer = ({
     return (
       <span>
         {label}
-        {isMandatory && <span style={{ color: "red", marginLeft: "4px" }}>*</span>}
+        {isMandatory && (
+          <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+        )}
       </span>
     );
   };
@@ -141,7 +323,8 @@ const ControlDrawer = ({
   const handleAdd = async () => {
     // Check if title already exists
     const existingTitle = controlData.find(
-      (item) => item.actualFieldName === "Title" && item.controlValue === formData.Title
+      (item) =>
+        item.actualFieldName === "Title" && item.controlValue === formData.Title
     );
 
     if (existingTitle) {
@@ -155,8 +338,8 @@ const ControlDrawer = ({
     // Added by Gauri to add validation for numeric fields on 20 Mar 2025
     // Step 1: Get Only Visible Fields
     const visibleFields = controlData
-    .filter((field) => field.applicable === 1) // Only visible fields
-    .map((field) => field.actualFieldName);
+      .filter((field) => field.applicable === 1) // Only visible fields
+      .map((field) => field.actualFieldName);
 
     // Step 2: Define Numeric Fields & Filter Only Visible Numeric Fields
     const numericFields = [
@@ -164,74 +347,97 @@ const ControlDrawer = ({
       "CustomFieldNumeric2",
       "CustomFieldNumeric3",
       "CustomFieldNumeric4",
-      "CustomFieldNumeric5"
+      "CustomFieldNumeric5",
     ];
 
     // Get only numeric fields that are visible
     // const visibleNumericFields = numericFields.filter((field) => visibleFields.includes(field));
     const visibleNumericFields = controlData
-    .filter(
-      (field) =>
-        field.applicable === 1 && // Only visible fields
-        numericFields.includes(field.actualFieldName) && // Only numeric fields
-        field.controlType !== "Combo Box" // Exclude dropdowns
-    )
-    .map((field) => field.actualFieldName);
-  
-    console.log("Visible Numeric Fields (should NOT include Business Group):", visibleNumericFields);
-  
+      .filter(
+        (field) =>
+          field.applicable === 1 && // Only visible fields
+          numericFields.includes(field.actualFieldName) && // Only numeric fields
+          field.controlType !== "Combo Box" // Exclude dropdowns
+      )
+      .map((field) => field.actualFieldName);
+
+    console.log(
+      "Visible Numeric Fields (should NOT include Business Group):",
+      visibleNumericFields
+    );
 
     // Step 3: Validate Numeric Fields ONLY
     for (const fieldName of visibleNumericFields) {
-      const fieldConfig = controlData.find((field) => field.actualFieldName === fieldName);
+      const fieldConfig = controlData.find(
+        (field) => field.actualFieldName === fieldName
+      );
       if (!fieldConfig || fieldConfig.controlType === "Combo Box") {
         console.log(`Skipping '${fieldName}' because it's a dropdown.`);
         continue; // Skip dropdowns
       }
-    
+
       const fieldValue = formData[fieldName];
-    
+
       console.log(`Validating Numeric Field: ${fieldName}, Value:`, fieldValue);
-    
+
       // if (!fieldValue || fieldValue.trim() === "") {
       //   toast.error(`'${fieldConfig.label}' should not be left blank.`);
       //   return;
       // }
 
-      if (fieldConfig.mandatory === 1 && (!fieldValue || fieldValue.trim() === "")) {
+      if (
+        fieldConfig.mandatory === 1 &&
+        (!fieldValue || fieldValue.trim() === "")
+      ) {
         toast.error(`'${fieldConfig.label}' should not be left blank.`);
         return;
       }
-    
+
       // Convert value to a number
       const numericValue = Number(fieldValue);
       if (isNaN(numericValue) || numericValue <= 0) {
-        toast.error(`Please enter only numeric values for '${fieldConfig.label}'.`);
+        toast.error(
+          `Please enter only numeric values for '${fieldConfig.label}'.`
+        );
         return;
       }
     }
-    
 
     // Convert form date values to Date objects
-    const expectedStart = formData.ExpectedStartDate ? new Date(formData.ExpectedStartDate) : null;
-    const expectedEnd = formData.ExpectedEndDate ? new Date(formData.ExpectedEndDate) : null;
+    const expectedStart = formData.ExpectedStartDate
+      ? new Date(formData.ExpectedStartDate)
+      : null;
+    const expectedEnd = formData.ExpectedEndDate
+      ? new Date(formData.ExpectedEndDate)
+      : null;
 
     // **Identify Dynamic Labels for Expected Start/End Dates**
-    const expectedStartLabel = controlData.find(field => field.actualFieldName === "ExpectedStartDate")?.label || "Expected Start Date";
-    const expectedEndLabel = controlData.find(field => field.actualFieldName === "ExpectedEndDate")?.label || "Expected End Date";
+    const expectedStartLabel =
+      controlData.find((field) => field.actualFieldName === "ExpectedStartDate")
+        ?.label || "Expected Start Date";
+    const expectedEndLabel =
+      controlData.find((field) => field.actualFieldName === "ExpectedEndDate")
+        ?.label || "Expected End Date";
 
     //  **Expected Start & End Date Validation (Dynamic Labels)**
     if (expectedStart && expectedEnd && expectedStart > expectedEnd) {
       if (expectedStartLabel.includes("Planned High Level")) {
-        toast.error(`'${expectedStartLabel}' should not be greater than '${expectedEndLabel}'.`);
+        toast.error(
+          `'${expectedStartLabel}' should not be greater than '${expectedEndLabel}'.`
+        );
       } else if (expectedStartLabel.includes("Process")) {
-        toast.error(`'${expectedStartLabel}' should not be greater than '${expectedEndLabel}'.`);
+        toast.error(
+          `'${expectedStartLabel}' should not be greater than '${expectedEndLabel}'.`
+        );
       } else {
-        toast.error(`'${expectedStartLabel}' should not be greater than '${expectedEndLabel}'.`);
+        toast.error(
+          `'${expectedStartLabel}' should not be greater than '${expectedEndLabel}'.`
+        );
       }
       return;
     }
     console.log("requestBody111", formData);
+    debugger;
     // Prepare the API request body
     const requestBody = {
       natureofDemandID: Number(NOIID),
@@ -249,8 +455,13 @@ const ControlDrawer = ({
       frequency: String(formData.Frequency || ""),
       productLineId: Number(formData.ProductLineId) || 0,
       productID: Number(formData.ProductID) || 0,
-      expectedStartDate: new Date(formData.ExpectedStartDate || new Date()).toISOString(),
-      expectedEndDate: new Date(formData.ExpectedEndDate || new Date()).toISOString(),
+      projectManager: Number(formData?.ProjectManager) || 0,
+      expectedStartDate: new Date(
+        formData.ExpectedStartDate || new Date()
+      ).toISOString(),
+      expectedEndDate: new Date(
+        formData.ExpectedEndDate || new Date()
+      ).toISOString(),
       // initiationDate: new Date(formData.InitiationDate || new Date()).toISOString(),
       initiationDate: new Date(
         formData.InitiationDate || new Date()
@@ -288,7 +499,9 @@ const ControlDrawer = ({
       plannedHandoverStartDate: new Date(
         formData.PlannedHandoverStartDate || new Date()
       ).toISOString(),
-      plannedHandoverEndDate: new Date(formData.PlannedHandoverEndDate || new Date()).toISOString(),
+      plannedHandoverEndDate: new Date(
+        formData.PlannedHandoverEndDate || new Date()
+      ).toISOString(),
       handoverComment: String(formData.HandoverComment || ""),
       systemAffected: String(formData.SystemAffected || ""),
       customFieldText1: String(formData.CustomFieldText1 || ""),
@@ -296,9 +509,15 @@ const ControlDrawer = ({
       customFieldText3: String(formData.CustomFieldText3 || ""),
       customFieldText4: String(formData.CustomFieldText4 || ""),
       customFieldText5: String(formData.CustomFieldText5 || ""),
-      customFieldDate1: new Date(formData.CustomFieldDate1 || new Date()).toISOString(),
-      customFieldDate2: new Date(formData.CustomFieldDate2 || new Date()).toISOString(),
-      customFieldDate3: new Date(formData.CustomFieldDate3 || new Date()).toISOString(),
+      customFieldDate1: new Date(
+        formData.CustomFieldDate1 || new Date()
+      ).toISOString(),
+      customFieldDate2: new Date(
+        formData.CustomFieldDate2 || new Date()
+      ).toISOString(),
+      customFieldDate3: new Date(
+        formData.CustomFieldDate3 || new Date()
+      ).toISOString(),
       customTextArea1: String(formData.CustomTextArea1 || ""),
       customTextArea2: String(formData.CustomTextArea2 || ""),
       customTextArea3: String(formData.CustomTextArea3 || ""),
@@ -307,10 +526,14 @@ const ControlDrawer = ({
       customFieldNumeric3: Number(formData.CustomFieldNumeric3) || 0,
       customFieldNumeric4: Number(formData.CustomFieldNumeric4) || 0,
       customFieldNumeric5: Number(formData.CustomFieldNumeric5) || 0,
-      customFieldDate4: new Date(formData.CustomFieldDate4 || new Date()).toISOString(),
-      customFieldDate5: new Date(formData.CustomFieldDate5 || new Date()).toISOString(),
+      customFieldDate4: new Date(
+        formData.CustomFieldDate4 || new Date()
+      ).toISOString(),
+      customFieldDate5: new Date(
+        formData.CustomFieldDate5 || new Date()
+      ).toISOString(),
       createdBy: Number(employeeId), // Ensure it's a number
-      createdDate: new Date().toISOString()
+      createdDate: new Date().toISOString(),
     };
 
     try {
@@ -322,16 +545,20 @@ const ControlDrawer = ({
           headers: {
             accept: "*/*",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`
+            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
           },
-          body: JSON.stringify(requestBody) // Assuming requestBody is defined
+          body: JSON.stringify(requestBody), // Assuming requestBody is defined
         }
       );
 
       const result = await response.json();
       setLoading(false);
 
-      if (result.data && result.data.length > 0 && result.data[0].result === "Success") {
+      if (
+        result.data &&
+        result.data.length > 0 &&
+        result.data[0].result === "Success"
+      ) {
         setIsAdd(!isAdd);
         onClose();
         toast.success("Data added successfully!");
@@ -375,10 +602,12 @@ const ControlDrawer = ({
               {groupedFields[rowNo]?.map((field, index) => {
                 const isRequired = field.mandatory === 1;
                 const isEditable = field.isEditable === 1;
-                const options = field?.initiativeDetailDropDownEntity?.map((item) => ({
-                  key: item.id,
-                  text: item.name
-                }));
+                const options = field?.initiativeDetailDropDownEntity?.map(
+                  (item) => ({
+                    key: item.id,
+                    text: item.name,
+                  })
+                );
 
                 switch (field.controlType) {
                   case "Text Box":
@@ -392,27 +621,46 @@ const ControlDrawer = ({
                           // placeholder={field.controlValue || ""}
                           placeholder={`Enter ${field.label}`}
                           value={formData[field.actualFieldName] ?? ""}
-                          onChange={(e) => handleChange(field.actualFieldName, e.target.value)}
+                          onChange={(e) =>
+                            handleChange(field.actualFieldName, e.target.value)
+                          }
                           disabled={!isEditable}
                           fullWidth
                         />
                       </div>
                     );
 
-
                   case "Combo Box":
                     const defaultOption = {
                       key: null,
-                      text: `Select ${field.label}`
+                      text: `Select ${field.label}`,
                     };
 
-                    const dropdownOptions = [
+                    var dropdownOptions = (dropdownOptions = [
                       defaultOption,
-                      ...(field.initiativeDetailDropDownEntity?.map((option) => ({
-                        key: option.id,
-                        text: option.name
-                      })) || [])
-                    ];
+                      ...(field.initiativeDetailDropDownEntity?.map(
+                        (option) => ({
+                          key: option.id,
+                          text: option.name,
+                        })
+                      ) || []),
+                    ]);
+                    // if (
+                    //   field.controlType === "Combo Box" &&
+                    //   field.fieldName === "DeliveryTeam"
+                    // ) {
+                    //   dropdownOptions = [defaultOption];
+                    // } else {
+                    //   dropdownOptions = [
+                    //     defaultOption,
+                    //     ...(field.initiativeDetailDropDownEntity?.map(
+                    //       (option) => ({
+                    //         key: option.id,
+                    //         text: option.name,
+                    //       })
+                    //     ) || []),
+                    //   ];
+                    // }
 
                     return (
                       <div
@@ -425,7 +673,9 @@ const ControlDrawer = ({
                           <Dropdown
                             label={renderLabel(field.label, isRequired)} // Use renderLabel for label
                             placeholder={`Select ${field.label}`}
-                            selectedKey={formData[field.actualFieldName] ?? null} // Use selectedKey instead of value
+                            selectedKey={
+                              formData[field.actualFieldName] ?? null
+                            } // Use selectedKey instead of value
                             onChange={(event, option) =>
                               handleChange(field.actualFieldName, option.key)
                             } // Adjust onChange handler
@@ -433,7 +683,7 @@ const ControlDrawer = ({
                             disabled={!isEditable}
                             options={dropdownOptions.map((option) => ({
                               key: option.key,
-                              text: option.text
+                              text: option.text,
                             }))} // Map options directly
                             styles={{ dropdown: { width: "100%" } }} // Optional: Ensure full-width styling
                           />
@@ -482,13 +732,14 @@ const ControlDrawer = ({
                             formData[field.actualFieldName]
                               ? new Date(formData[field.actualFieldName])
                               : field.controlValue
-                                ? new Date(field.controlValue)
-                                : null
+                              ? new Date(field.controlValue)
+                              : null
                           }
                           onSelectDate={(date) => {
                             if (date) {
                               const adjustedDate = new Date(
-                                date.getTime() - date.getTimezoneOffset() * 60000
+                                date.getTime() -
+                                  date.getTimezoneOffset() * 60000
                               ); // Adjust for timezone
                               handleChange(field.actualFieldName, adjustedDate);
                             } else {
@@ -515,7 +766,9 @@ const ControlDrawer = ({
                           label={renderLabel(field.label, isRequired)} // Use renderLabel for label
                           placeholder={field.controlValue || ""}
                           value={formData[field.actualFieldName] || ""}
-                          onChange={(e) => handleChange(field.actualFieldName, e.target.value)}
+                          onChange={(e) =>
+                            handleChange(field.actualFieldName, e.target.value)
+                          }
                           multiline
                           rows={4}
                           // required={isRequired}
@@ -549,7 +802,7 @@ const ControlDrawer = ({
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    marginBottom: 2
+                    marginBottom: 2,
                   }}
                 >
                   {/* header text changed By Madhuri.K On 04-Feb-2025 */}
@@ -557,10 +810,19 @@ const ControlDrawer = ({
                 </Box>
               </div>
               <div>
-                <Button variant="contained" color="primary" onClick={handleAdd} disabled={loading}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleAdd}
+                  disabled={loading}
+                >
                   {loading ? <CircularProgress size={24} /> : "Save as Draft"}
                 </Button>
-                <Button variant="text" className="btn nostylebtn closelink" onClick={handleGoBack}>
+                <Button
+                  variant="text"
+                  className="btn nostylebtn closelink"
+                  onClick={handleGoBack}
+                >
                   Back
                 </Button>
               </div>
@@ -575,7 +837,9 @@ const ControlDrawer = ({
                 <div className="col-md-3 text-start">
                   <strong>Nature of Initiative : </strong>
                 </div>
-                <div className="col-md-8 text-start">{natureofDemandID || "N/A"}</div>
+                <div className="col-md-8 text-start">
+                  {natureofDemandID || "N/A"}
+                </div>
               </div>
             </div>
             <div className="col-md-6 text-end ">

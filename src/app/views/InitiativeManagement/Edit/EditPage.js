@@ -39,8 +39,19 @@ import GetInitiativeActioItems from "../../../hooks/Editpage/GetInitiativeActioI
 import GetPrioritizationCheckList from "app/hooks/Editpage/GetPrioritizationCheckList";
 import { ref } from "yup";
 
-{/* Passed initiatives by Gauri for manage workflow stages on 24 Mar 2025 */}
-const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh12, refresh12, show }) => {
+{
+  /* Passed initiatives by Gauri for manage workflow stages on 24 Mar 2025 */
+}
+const EditPage = ({
+  ideaID,
+  initiatives,
+  initiativesID,
+  setIsEditing,
+  image,
+  setRefresh12,
+  refresh12,
+  show,
+}) => {
   const [activeTab, setActiveTab] = useState("basic-details");
   const [activeTab1, setActiveTab1] = useState("");
   const [tabsData, setTabsData] = useState([]);
@@ -52,7 +63,7 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
     businessGroup: null,
     organizationUnit: null,
     plannedStart: null,
-    plannedEnd: null
+    plannedEnd: null,
   });
   const [userID, setUserID] = useState(null);
   const [refetch, setRefetch] = useState(false);
@@ -69,7 +80,9 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
   const [initiativeHistory, setInitiativeHistory] = useState(null);
   const [initiativeLinkAccess, setInitiativeLinkAccess] = useState(null);
   const [initiativeWorkFlow, setInitiativeWorkFlow] = useState(null);
-  {/* Passed initiativesData by Gauri for manage workflow stages on 24 Mar 2025 */}
+  {
+    /* Passed initiativesData by Gauri for manage workflow stages on 24 Mar 2025 */
+  }
   const [initiativesData, setInitiativesData] = useState(null);
   const [initiativeRisks, setInitiativeRisks] = useState(null);
   const [acc, setAcc] = useState([]);
@@ -80,6 +93,7 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
   console.log("initiativesIDxx", initiativesID);
   const handleGoBack = () => {
     setIsEditing(false);
+    // setRefresh12((prev) => !prev);
   };
 
   useEffect(() => {
@@ -92,23 +106,28 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
 
     const fetchData = async () => {
       try {
-        const detail = await GetInitiativeDetail(initiativesID, userdata?.employeeId);
+        const detail = await GetInitiativeDetail(
+          initiativesID,
+          userdata?.employeeId
+        );
 
         // Set tabs data from the API response
-        const tabs = detail.data.listInitiativeDetailSubtagEntity.map((tab) => ({
-          id: tab.subTagName.toLowerCase().replace(" ", "-"), // Generating an ID from subTagName
-          title: tab.subTagName,
-          api: tab.api,
-          applicable: tab.applicable,
-          subTagID: tab.subTagID
-        }));
+        const tabs = detail.data.listInitiativeDetailSubtagEntity.map(
+          (tab) => ({
+            id: tab.subTagName.toLowerCase().replace(" ", "-"), // Generating an ID from subTagName
+            title: tab.subTagName,
+            api: tab.api,
+            applicable: tab.applicable,
+            subTagID: tab.subTagID,
+          })
+        );
 
         // Always include basic details
         tabs.unshift({
           id: "basic-details",
           title: "Basic Details",
           api: null, // No API for Basic Details
-          applicable: 1 // Always applicable
+          applicable: 1, // Always applicable
         });
 
         setTabsData(tabs.filter((tab) => tab.applicable)); // Only include applicable tabs
@@ -118,6 +137,28 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
     };
 
     fetchData();
+    // const detail = GetInitiativeDetail(initiativesID, userdata?.employeeId);
+    // if (detail?.data?.listInitiativeDetailSubtagEntity?.length > 0) {
+    //   const tabs = detail.data.listInitiativeDetailSubtagEntity.map((tab) => ({
+    //     id: tab.subTagName.toLowerCase().replace(" ", "-"), // Generating an ID from subTagName
+    //     title: tab.subTagName,
+    //     api: tab.api,
+    //     applicable: tab.applicable,
+    //     subTagID: tab.subTagID,
+    //   }));
+
+    //   // Always include basic details
+    //   tabs.unshift({
+    //     id: "basic-details",
+    //     title: "Basic Details",
+    //     api: null, // No API for Basic Details
+    //     applicable: 1, // Always applicable
+    //   });
+
+    //   setTabsData(tabs.filter((tab) => tab.applicable)); // Only include applicable tabs
+    // }
+
+    // Set tabs data from the API response
   }, [initiativesID]);
 
   const updateTabsToShow = () => {
@@ -153,8 +194,10 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
             setInitiativeDetail(null);
             const detail = await GetInitiativeDetail(initiativesID, userID);
             setInitiativeDetail(detail);
-            {/* Set initiativesData by Gauri for manage workflow stages on 24 Mar 2025 */}
-            setInitiativesData(initiatives)
+            {
+              /* Set initiativesData by Gauri for manage workflow stages on 24 Mar 2025 */
+            }
+            setInitiativesData(initiatives);
           }
           if (activeTab == "roi") {
             const roi = await GetInitiativeROIList(initiativesID);
@@ -166,7 +209,10 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
           }
           if (activeTab == "document-upload") {
             console.log("GetInitiativeDocumentList");
-            const document = await GetInitiativeDocumentList(initiativesID, userID);
+            const document = await GetInitiativeDocumentList(
+              initiativesID,
+              userID
+            );
             setInitiativeDocument(document);
           }
           if (activeTab == "timelines") {
@@ -198,7 +244,10 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
             setInitiativeHistory(history);
           }
           if (activeTab == "basic-details") {
-            const linkAccess = await GetInitiativeLinkAccess(initiativesID, userID);
+            const linkAccess = await GetInitiativeLinkAccess(
+              initiativesID,
+              userID
+            );
             setInitiativeLinkAccess(linkAccess);
           }
           if (activeTab == "workflows") {
@@ -210,15 +259,24 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
             setInitiativeRisks(risks);
           }
           if (activeTab == "risks") {
-            const risksheat = await GetInitiativeRisksHeat(initiativesID, userID);
+            const risksheat = await GetInitiativeRisksHeat(
+              initiativesID,
+              userID
+            );
             setInitiativeRisksHeat(risksheat);
           }
           if (activeTab == "risks") {
-            const actioItems = await GetInitiativeActioItems(initiativesID, userID);
+            const actioItems = await GetInitiativeActioItems(
+              initiativesID,
+              userID
+            );
             setInitiativeActioItems(actioItems);
           }
           if (activeTab == "basic-details") {
-            const PrioritizationCheckList = await GetPrioritizationCheckList(initiativesID, userID);
+            const PrioritizationCheckList = await GetPrioritizationCheckList(
+              initiativesID,
+              userID
+            );
             setPrioritizationCheckList(PrioritizationCheckList);
           }
         } catch (error) {
@@ -248,8 +306,10 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               method: "GET",
               headers: {
                 accept: "*/*",
-                Authorization: `Bearer ${sessionStorage.getItem("access_token")}`
-              }
+                Authorization: `Bearer ${sessionStorage.getItem(
+                  "access_token"
+                )}`,
+              },
             }
           );
 
@@ -258,7 +318,10 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
           }
 
           const data = await response.json();
-          console.log("SubTabLinkAccess Data:", data.data.initiativeSubTagLinkAccess);
+          console.log(
+            "SubTabLinkAccess Data:",
+            data.data.initiativeSubTagLinkAccess
+          );
           setAcc(data.data.initiativeSubTagLinkAccess);
           // You can set the data to state if needed
           // setSomeState(data);
@@ -276,7 +339,10 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
       <>
         {tabsData.map((tab) => (
           <Nav.Item key={tab.id}>
-            <Nav.Link href={`#${tab.id}`} onClick={() => handleTabClick(tab.id, tab.subTagID)}>
+            <Nav.Link
+              href={`#${tab.id}`}
+              onClick={() => handleTabClick(tab.id, tab.subTagID)}
+            >
               {tab.title}
             </Nav.Link>
           </Nav.Item>
@@ -313,6 +379,7 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               image={image}
               setRefresh1={setRefresh}
               refresh={refresh}
+              setRefresh12={setRefresh12}
               prioritizationCheckList={prioritizationCheckList}
               initiativeActioItems={initiativeActioItems}
               initiativesData={initiativesData}
@@ -330,7 +397,11 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               show={show}
               acc={acc}
             />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "work-order details":
@@ -344,7 +415,11 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               show={show}
               acc={acc}
             />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "costs":
@@ -358,7 +433,11 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               show={show}
               acc={acc}
             />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "funding":
@@ -372,7 +451,11 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               show={show}
               acc={acc}
             />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "roi":
@@ -388,7 +471,11 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               show={show}
               acc={acc}
             />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "stage":
@@ -400,7 +487,11 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               refresh={refresh}
               acc={acc}
             />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "timelines":
@@ -414,7 +505,11 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               show={show}
               acc={acc}
             />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "document-upload":
@@ -428,28 +523,44 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               refresh={refresh}
               acc={acc}
             />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "workflows":
         return (
           <div className="container-fluid mt-3">
             <WorkflowTabs initiativeWorkFlow={initiativeWorkFlow} acc={acc} />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "discussion-thread":
         return (
           <div className="container-fluid mt-3">
             <Discussion initiativeId={initiativesID} acc={acc} />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "initiative-history":
         return (
           <div className="container-fluid mt-3">
             <InitiativeHistoryTab initiativeId={initiativesID} acc={acc} />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       case "risks":
@@ -467,7 +578,11 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
               show={show}
               acc={acc}
             />
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: 10 }}></Stack>
+            <Stack
+              horizontal
+              horizontalAlign="end"
+              tokens={{ childrenGap: 10 }}
+            ></Stack>
           </div>
         );
       default:
@@ -475,7 +590,8 @@ const EditPage = ({ initiatives, initiativesID, setIsEditing, image, setRefresh1
           <div>
             <h3>{tabData.find((tab) => tab.id === activeTab)?.title}</h3>
             <p>
-              Content related to {tabData.find((tab) => tab.id === activeTab)?.title.toLowerCase()}{" "}
+              Content related to{" "}
+              {tabData.find((tab) => tab.id === activeTab)?.title.toLowerCase()}{" "}
               goes here.
             </p>
           </div>

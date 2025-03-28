@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { DefaultButton, PrimaryButton, IconButton } from "@fluentui/react/lib/Button";
+import {
+  DefaultButton,
+  PrimaryButton,
+  IconButton,
+} from "@fluentui/react/lib/Button";
 import moment from "moment";
 import { Modal } from "@fluentui/react/lib/Modal";
-import { getTheme, mergeStyleSets, mergeStyles } from "@fluentui/react/lib/Styling";
+import {
+  getTheme,
+  mergeStyleSets,
+  mergeStyles,
+} from "@fluentui/react/lib/Styling";
 import "bootstrap/dist/css/bootstrap.min.css";
 import currentstage from "../../../../assets/img/currentstage.svg";
 import useSubmitAction from "../../../hooks/Editpage/useSubmitAction";
@@ -24,7 +32,7 @@ const theme = getTheme();
 
 const profilePictureContainerStyles = mergeStyles({
   position: "relative",
-  display: "inline-block"
+  display: "inline-block",
 });
 
 const editIconStyles = mergeStyles({
@@ -37,14 +45,14 @@ const editIconStyles = mergeStyles({
   padding: 5,
   fontSize: 24,
   color: "#000000",
-  zIndex: 10
+  zIndex: 10,
 });
 
 const buttonGroupStyles = mergeStyles({
   position: "absolute",
   top: 20,
   right: 20,
-  zIndex: 10
+  zIndex: 10,
 });
 
 const profilePictureStyles = mergeStyles({
@@ -52,17 +60,17 @@ const profilePictureStyles = mergeStyles({
   width: 72,
   height: 72,
   objectFit: "cover",
-  border: "2px solid #e1dfdd"
+  border: "2px solid #e1dfdd",
 });
 
 const fieldContainerStyles = mergeStyles({
   display: "flex",
   alignItems: "flex-start",
-  gap: 20
+  gap: 20,
 });
 
 const fieldGroupStyles = mergeStyles({
-  flexBasis: "48%"
+  flexBasis: "48%",
 });
 const classNames = mergeStyleSets({
   modalWrapper: {
@@ -74,7 +82,7 @@ const classNames = mergeStyleSets({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)" // backdrop effect
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // backdrop effect
   },
   modal: {
     width: "40vw",
@@ -84,32 +92,34 @@ const classNames = mergeStyleSets({
     borderRadius: theme.effects.roundedCorner2,
     boxShadow: theme.effects.elevation16,
     overflowY: "auto",
-    position: "relative" // For the close button
+    position: "relative", // For the close button
   },
   header: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     padding: `${theme.spacing.s1} ${theme.spacing.m}`,
-    borderBottom: `1px solid ${theme.palette.neutralLight}`
+    borderBottom: `1px solid ${theme.palette.neutralLight}`,
   },
   body: {
-    padding: theme.spacing.m
+    padding: theme.spacing.m,
   },
   footer: {
     display: "flex",
     justifyContent: "flex-end",
     padding: `${theme.spacing.s1} ${theme.spacing.m}`,
-    borderTop: `1px solid ${theme.palette.neutralLight}`
+    borderTop: `1px solid ${theme.palette.neutralLight}`,
   },
   closeButton: {
     position: "absolute",
     right: theme.spacing.s1,
-    top: theme.spacing.s1
-  }
+    top: theme.spacing.s1,
+  },
 });
 
-{/* Passed initiativesData by Gauri for manage workflow stages on 24 Mar 2025 */ }
+{
+  /* Passed initiativesData by Gauri for manage workflow stages on 24 Mar 2025 */
+}
 function BasicDetailEdit({
   initiativesID,
   image,
@@ -119,9 +129,10 @@ function BasicDetailEdit({
   handleGoBack,
   setRefresh1,
   refresh,
+  setRefresh12,
   prioritizationCheckList,
   initiativeActioItems,
-  initiativesData
+  initiativesData,
 }) {
   console.log("initiativesID", initiativesID);
   const [formDataState, setFormDataState] = useState({});
@@ -150,7 +161,7 @@ function BasicDetailEdit({
     if (initiativesData) {
       setIniData(initiativesData);
     }
-  }, [initiativesData]);
+  }, [initiativesData, setRefresh12]);
 
   console.log("BasicDetailEdit initiativesData", iniData);
 
@@ -164,7 +175,10 @@ function BasicDetailEdit({
 
   useEffect(() => {
     if (initiativeDetail?.data?.listInitiativeDetailEntity) {
-      console.log("Initiative Detail Data:", initiativeDetail?.data?.listInitiativeDetailEntity);
+      console.log(
+        "Initiative Detail Data:",
+        initiativeDetail?.data?.listInitiativeDetailEntity
+      );
 
       const initialData = {};
       initiativeDetail.data.listInitiativeDetailEntity.forEach((field) => {
@@ -172,7 +186,10 @@ function BasicDetailEdit({
 
         // Parse dates correctly (handle both display and UTC formats)
         if (actualFieldName.includes("Date") && controlValue) {
-          const parsedDate = moment(controlValue, ["MMM D YYYY h:mmA", moment.ISO_8601]);
+          const parsedDate = moment(controlValue, [
+            "MMM D YYYY h:mmA",
+            moment.ISO_8601,
+          ]);
           initialData[actualFieldName] = parsedDate.isValid()
             ? parsedDate.toISOString()
             : controlValue;
@@ -186,10 +203,14 @@ function BasicDetailEdit({
     } else {
       console.log("Initiative detail data is missing or incorrect");
     }
-  }, [initiativeDetail]);
+  }, [initiativeDetail, setRefresh12]);
 
   const getFieldValue = (field) => {
-    return formDataState[field.actualFieldName] || formDataState[field.fieldName] || "";
+    return (
+      formDataState[field.actualFieldName] ||
+      formDataState[field.fieldName] ||
+      ""
+    );
   };
 
   const openModal = (action) => {
@@ -224,7 +245,7 @@ function BasicDetailEdit({
       Sep: "09",
       Oct: "10",
       Nov: "11",
-      Dec: "12"
+      Dec: "12",
     };
     return months[month] || "00"; // Return '00' if month is not found
   };
@@ -259,9 +280,9 @@ function BasicDetailEdit({
     }
 
     // Create a formatted date string
-    const formattedDateString = `${year}-${monthToNumber(month)}-${paddedDay}T${String(
-      adjustedHour
-    ).padStart(2, "0")}:${minute}:00`;
+    const formattedDateString = `${year}-${monthToNumber(
+      month
+    )}-${paddedDay}T${String(adjustedHour).padStart(2, "0")}:${minute}:00`;
 
     // Create a new Date object
     const parsedDate = new Date(formattedDateString);
@@ -272,62 +293,290 @@ function BasicDetailEdit({
     // Check if the date is valid
     return isNaN(parsedDate) ? null : parsedDate; // Return null if the date is invalid
   };
+
+  // Function to validate mandatory fields
+  const validateMandatoryFields = () => {
+    const mandatoryFields =
+      initiativeDetail?.data?.listInitiativeDetailEntity.filter(
+        (field) => field.mandatory === 1 && field.isEditable === 1
+      );
+
+    for (const field of mandatoryFields) {
+      if (!formDataState[field.actualFieldName]) {
+        toast.error(`${field.label} cannot be left blank`);
+        return false; // Stop further validation after the first error
+      }
+    }
+
+    return true;
+  };
+
+  // Function to validate mandatory fields
+  const validateDateFields = () => {
+    debugger;
+    const mandatoryFields =
+      initiativeDetail?.data?.listInitiativeDetailEntity.filter((field) =>
+        [
+          "ExpectedStartDate",
+          "ExpectedEndDate",
+          "PlannedExecutionStartDate",
+          "PlannedExecutionEndDate",
+        ].includes(field.actualFieldName)
+      );
+
+    let dateFields = {};
+
+    const parseDate = (dateStr) => {
+      if (!dateStr) return null;
+
+      // Replace multiple spaces to ensure correct parsing
+      dateStr = dateStr.replace(/\s+/g, " ");
+
+      // Convert the date string to a valid format
+      const parsedDate = Date.parse(dateStr);
+
+      return isNaN(parsedDate) ? null : new Date(parsedDate);
+    };
+
+    // Validate missing fields
+    for (const field of mandatoryFields) {
+      const fieldValue = formDataState[field.actualFieldName];
+
+      const parsedDate = fieldValue
+        ? moment
+            .utc(
+              fieldValue,
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                fieldValue,
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null;
+
+      dateFields[field.actualFieldName] = {
+        value: new Date(parsedDate),
+        field,
+      };
+    }
+
+    // Compare start and end dates
+    const datePairs = [
+      ["ExpectedStartDate", "ExpectedEndDate"],
+      ["PlannedExecutionStartDate", "PlannedExecutionEndDate"],
+    ];
+
+    for (const [startField, endField] of datePairs) {
+      if (dateFields[startField] && dateFields[endField]) {
+        if (dateFields[startField].value > dateFields[endField].value) {
+          toast.error(
+            // `${dateFields[startField].field.label} (${startField}) cannot be later than ${dateFields[endField].field.label} (${endField})`
+            `${dateFields[startField].field.label}  cannot be later than ${dateFields[endField].field.label} `
+          );
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
   const handleSave = async () => {
     const missingFields = [];
 
+    if (!validateMandatoryFields()) {
+      return; // Stop execution if mandatory fields are missing
+    }
+
+    if (!validateDateFields()) {
+      return; // Stop execution if mandatory fields are missing
+    }
+
     // Check if the title already exists
-    const existingTitle = initiativeDetail?.data?.listInitiativeDetailEntity.find(
-      (item) => item.fieldName === "Title" && item.controlValue === formDataState["Initiative Title"]
-    );
+    const existingTitle =
+      initiativeDetail?.data?.listInitiativeDetailEntity.find(
+        (item) =>
+          item.fieldName === "Title" &&
+          item.controlValue === formDataState["Initiative Title"]
+      );
 
     if (existingTitle) {
       toast.error("Initiative Title already exists");
       return; // Stop further execution
     }
 
-    // Validate PlannedExecutionStartDate vs PlannedExecutionEndDate
-    // const plannedStart = formDataState["PlannedExecutionStartDate"] ? new Date(formDataState["PlannedExecutionStartDate"]) : null;
-    // const plannedEnd = formDataState["PlannedExecutionEndDate"] ? new Date(formDataState["PlannedExecutionEndDate"]) : null;
+    debugger;
 
-    // if (plannedStart && plannedEnd && plannedStart > plannedEnd) {
-    //   toast.error("The 'Planned High Level Start Date' should not be greater than 'End Date'.");
-    //   return;
-    // }
+    // Added by Parth.G to add validation for numeric fields on 28 Mar 2025
+    // Step 1: Get Only Visible Fields
+    const visibleFields = initiativeDetail?.data?.listInitiativeDetailEntity
+      .filter((field) => field.applicable === 1) // Only visible fields
+      .map((field) => field.actualFieldName);
 
-    // // Validate ExpectedStartDate vs ExpectedEndDate
-    // const processStart = formDataState["ExpectedStartDate"] ? new Date(formDataState["ExpectedStartDate"]) : null;
-    // const processEnd = formDataState["ExpectedEndDate"] ? new Date(formDataState["ExpectedEndDate"]) : null;
+    // Step 2: Define Numeric Fields & Filter Only Visible Numeric Fields
+    const numericFields = [
+      "CustomFieldNumeric1",
+      "CustomFieldNumeric2",
+      "CustomFieldNumeric3",
+      "CustomFieldNumeric4",
+      "CustomFieldNumeric5",
+    ];
 
-    // if (processStart && processEnd && processStart > processEnd) {
-    //   toast.error("The 'Process Start Date' should not be greater than 'Process End Date'.");
-    //   return;
-    // }
+    // Get only numeric fields that are visible
+    // const visibleNumericFields = numericFields.filter((field) => visibleFields.includes(field));
+    const visibleNumericFields =
+      initiativeDetail?.data?.listInitiativeDetailEntity
+        .filter(
+          (field) =>
+            field.applicable === 1 && // Only visible fields
+            numericFields.includes(field.actualFieldName) && // Only numeric fields
+            field.controlType !== "Combo Box" // Exclude dropdowns
+        )
+        .map((field) => field.actualFieldName);
+
+    console.log(
+      "Visible Numeric Fields (should NOT include Business Group):",
+      visibleNumericFields
+    );
+
+    // Step 3: Validate Numeric Fields ONLY
+    for (const fieldName of visibleNumericFields) {
+      const fieldConfig =
+        initiativeDetail?.data?.listInitiativeDetailEntity.find(
+          (field) => field.actualFieldName === fieldName
+        );
+      if (!fieldConfig || fieldConfig.controlType === "Combo Box") {
+        console.log(`Skipping '${fieldName}' because it's a dropdown.`);
+        continue; // Skip dropdowns
+      }
+
+      const fieldValue = formDataState[fieldName];
+
+      console.log(`Validating Numeric Field: ${fieldName}, Value:`, fieldValue);
+
+      // if (!fieldValue || fieldValue.trim() === "") {
+      //   toast.error(`'${fieldConfig.label}' should not be left blank.`);
+      //   return;
+      // }
+
+      if (
+        fieldConfig.mandatory === 1 &&
+        (!fieldValue || fieldValue.trim() === "")
+      ) {
+        toast.error(`'${fieldConfig.label}' should not be left blank.`);
+        return;
+      }
+
+      // Convert value to a number
+      const numericValue = Number(fieldValue);
+      if (isNaN(numericValue) || numericValue <= 0) {
+        toast.error(
+          `Please enter only numeric values for '${fieldConfig.label}'.`
+        );
+        return;
+      }
+    }
 
     // Proceed with API call if all checks pass
     console.log("formDataToSave", formDataState);
+
     const formDataToSave = {
+      projectManager: Number(formDataState["ProjectManager"]),
       ideaID: initiativesID,
       title: formDataState["Initiative Title"],
-      title: getFieldValue({ actualFieldName: "Title", fieldName: "Initiative Title" }),
-      organizationUnit: formDataState["Organization Unit"] ? parseInt(formDataState["Organization Unit"]) : 0,
+      title: getFieldValue({
+        actualFieldName: "Title",
+        fieldName: "Initiative Title",
+      }),
+      organizationUnit: formDataState["Organization Unit"]
+        ? parseInt(formDataState["Organization Unit"])
+        : 0,
 
-      description: getFieldValue({ actualFieldName: "Description", fieldName: "Initiative Description" }),
-      businessUnitID: getFieldValue({ actualFieldName: "BusinessUnitID", fieldName: "Business Unit" }),
+      description: getFieldValue({
+        actualFieldName: "Description",
+        fieldName: "Initiative Description",
+      }),
+      businessUnitID: getFieldValue({
+        actualFieldName: "BusinessUnitID",
+        fieldName: "Business Unit",
+      }),
       // organizationUnit: getFieldValue({ actualFieldName: "OrganizationUnit", fieldName: "OrganizationUnit" }),
-      requestTypeID: getFieldValue({ actualFieldName: "RequestTypeID", fieldName: "Initiative Type" }),
-      vendorID: getFieldValue({ actualFieldName: "VendorID", fieldName: "Vendor" }),
+      requestTypeID: getFieldValue({
+        actualFieldName: "RequestTypeID",
+        fieldName: "Initiative Type",
+      }),
+      vendorID: getFieldValue({
+        actualFieldName: "VendorID",
+        fieldName: "Vendor",
+      }),
 
-      expectedStartDate: formDataState["ExpectedStartDate"] || null,
-      expectedEndDate: formDataState["ExpectedEndDate"] || null,
-      customFieldDate1: formDataState["customFieldDate1"] || null,
+      // expectedStartDate: formDataState["ExpectedStartDate"] || null,
 
-      deliveryUnit: formDataState["Delivery Unit"] ? parseInt(formDataState["Delivery Unit"]) : 0,
-      deliveryTeam: formDataState["Delivery Team"] ? parseInt(formDataState["Delivery Team"]) : 0,
+      expectedStartDate: formDataState["ExpectedStartDate"]
+        ? moment
+            .utc(
+              formDataState["ExpectedStartDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["ExpectedStartDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+      // expectedEndDate: formDataState["ExpectedEndDate"] || null,
+      expectedEndDate: formDataState["ExpectedEndDate"]
+        ? moment
+            .utc(
+              formDataState["ExpectedEndDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["ExpectedEndDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+      // customFieldDate1: formDataState["customFieldDate1"] || null,
+      customFieldDate1: formDataState["CustomFieldDate1"]
+        ? moment
+            .utc(
+              formDataState["CustomFieldDate1"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["CustomFieldDate1"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+
+      deliveryUnit: formDataState["Delivery Unit"]
+        ? parseInt(formDataState["Delivery Unit"])
+        : 0,
+      deliveryTeam: formDataState["Delivery Team"]
+        ? parseInt(formDataState["Delivery Team"])
+        : 0,
       bgRepresentatives: formDataState["BG Representatives"],
       resourceEffort: formDataState["Resource Effort"]
         ? parseFloat(formDataState["Resource Effort"])
         : 0,
-      priorityID: formDataState["Priority"] ? parseInt(formDataState["Priority"]) : 0,
+      priorityID: formDataState["Priority"]
+        ? parseInt(formDataState["Priority"])
+        : 0,
       requestTypeID: formDataState["Initiative Type"]
         ? parseInt(formDataState["Initiative Type"])
         : 0,
@@ -335,26 +584,155 @@ function BasicDetailEdit({
       productLineId: formDataState["Product Line ID"]
         ? parseInt(formDataState["Product Line ID"])
         : 0,
-      productID: formDataState["Product ID"] ? parseInt(formDataState["Product ID"]) : 0,
+      productID: formDataState["Product ID"]
+        ? parseInt(formDataState["Product ID"])
+        : 0,
       initiationDate: new Date().toISOString(),
       originalRequester: formDataState["Original Requester"]
         ? parseInt(formDataState["Original Requester"])
         : 0,
       objectives: formDataState["Objectives"],
-      conceptualizationStartDate: new Date().toISOString(),
-      conceptualizationEndDate: new Date().toISOString(),
+      // conceptualizationStartDate: new Date().toISOString(),
+      conceptualizationStartDate: formDataState["conceptualizationStartDate"]
+        ? new Date(formDataState["conceptualizationStartDate"]).toISOString()
+        : new Date().toISOString(),
+      // conceptualizationEndDate: new Date().toISOString(),
+      conceptualizationStartDate: formDataState["conceptualizationStartDate"]
+        ? new Date(formDataState["conceptualizationStartDate"]).toISOString()
+        : new Date().toISOString(),
       conceptualizationComment: formDataState["Conceptualization Comment"],
-      plannedSolutioningStartdate: formDataState["PlannedSolutioningStartDate"],
-      plannedSolutioningEndDate: formDataState["PlannedSolutioningEndDate"],
+      // plannedSolutioningStartdate: formDataState["PlannedSolutioningStartDate"],
+      plannedSolutioningStartdate: formDataState["PlannedSolutioningStartDate"]
+        ? moment
+            .utc(
+              formDataState["PlannedSolutioningStartDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["PlannedSolutioningStartDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+      // plannedSolutioningEndDate: formDataState["PlannedSolutioningEndDate"],
+      plannedSolutioningEndDate: formDataState["PlannedSolutioningEndDate"]
+        ? moment
+            .utc(
+              formDataState["PlannedSolutioningEndDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["PlannedSolutioningEndDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
       solutioningComment: formDataState["SolutioningComment"],
-      plannedExecutionStartDate: formDataState["PlannedExecutionStartDate"],
-      plannedExecutionEndDate: formDataState["PlannedExecutionEndDate"],
+      // plannedExecutionStartDate: formDataState["PlannedExecutionStartDate"],
+      plannedExecutionStartDate: formDataState["PlannedExecutionStartDate"]
+        ? moment
+            .utc(
+              formDataState["PlannedExecutionStartDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["PlannedExecutionStartDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+
+      // plannedExecutionEndDate: formDataState["PlannedExecutionEndDate"],
+      plannedExecutionEndDate: formDataState["PlannedExecutionEndDate"]
+        ? moment
+            .utc(
+              formDataState["PlannedExecutionEndDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["PlannedExecutionEndDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
       executionComment: formDataState["ExecutionComment"],
-      plannedAcceptanceStartDate: formDataState["PlannedAcceptanceStartDate"],
-      plannedAcceptanceEndDate: formDataState["PlannedAcceptanceEndDate"],
+      // plannedAcceptanceStartDate: formDataState["PlannedAcceptanceStartDate"],
+      plannedAcceptanceStartDate: formDataState["PlannedAcceptanceStartDate"]
+        ? moment
+            .utc(
+              formDataState["PlannedAcceptanceStartDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["PlannedAcceptanceStartDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+      // plannedAcceptanceEndDate: formDataState["PlannedAcceptanceEndDate"],
+      plannedAcceptanceEndDate: formDataState["PlannedAcceptanceEndDate"]
+        ? moment
+            .utc(
+              formDataState["PlannedAcceptanceEndDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["PlannedAcceptanceEndDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
       acceptanceComment: formDataState["AcceptanceComment"],
-      plannedHandoverStartDate: formDataState["PlannedHandoverStartDate"],
-      plannedHandoverEndDate: formDataState["PlannedHandoverEndDate"],
+      // plannedHandoverStartDate: formDataState["PlannedHandoverStartDate"],
+      plannedHandoverStartDate: formDataState["PlannedHandoverStartDate"]
+        ? moment
+            .utc(
+              formDataState["PlannedHandoverStartDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["PlannedHandoverStartDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+      // plannedHandoverEndDate: formDataState["PlannedHandoverEndDate"],
+      plannedHandoverEndDate: formDataState["PlannedHandoverEndDate"]
+        ? moment
+            .utc(
+              formDataState["PlannedHandoverEndDate"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["PlannedHandoverEndDate"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
       handoverComment: formDataState["HandoverComment"],
       systemAffected: formDataState["SystemAffected"],
       customFieldText1: formDataState["CustomFieldText1"],
@@ -362,11 +740,59 @@ function BasicDetailEdit({
       customFieldText3: formDataState["CustomFieldText3"],
       customFieldText4: formDataState["CustomFieldText4"],
       customFieldText5: formDataState["CustomFieldText5"],
+      // customFieldDate1: formDataState["CustomFieldDate1"]
+      //   ? moment(
+      //       formDataState["CustomFieldDate1"],
+      //       "MMM DD YYYY h:mmA"
+      //     ).toISOString()
+      //   : "",
       customFieldDate1: formDataState["CustomFieldDate1"]
-        ? moment(formDataState["CustomFieldDate1"], "MMM DD YYYY h:mmA").toISOString()
-        : "",
-      customFieldDate2: formDataState["CustomFieldDate2"],
-      customFieldDate3: formDataState["CustomFieldDate3"],
+        ? moment
+            .utc(
+              formDataState["CustomFieldDate1"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["CustomFieldDate1"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+      // customFieldDate2: formDataState["CustomFieldDate2"],
+      customFieldDate2: formDataState["CustomFieldDate2"]
+        ? moment
+            .utc(
+              formDataState["CustomFieldDate2"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["CustomFieldDate2"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+      // customFieldDate3: formDataState["CustomFieldDate3"],
+      customFieldDate3: formDataState["CustomFieldDate3"]
+        ? moment
+            .utc(
+              formDataState["CustomFieldDate3"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["CustomFieldDate3"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
       customTextArea1: formDataState["CustomTextArea1"],
       customTextArea2: formDataState["CustomTextArea2"],
       customTextArea3: formDataState["CustomTextArea3"],
@@ -385,10 +811,41 @@ function BasicDetailEdit({
       customFieldNumeric5: formDataState["CustomFieldNumeric5"]
         ? parseFloat(formDataState["CustomFieldNumeric5"])
         : 0,
-      customFieldDate4: formDataState["CustomFieldDate4"],
-      customFieldDate5: formDataState["CustomFieldDate5"],
+      // customFieldDate4: formDataState["CustomFieldDate4"],
+      customFieldDate4: formDataState["CustomFieldDate4"]
+        ? moment
+            .utc(
+              formDataState["CustomFieldDate4"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["CustomFieldDate4"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
+
+      // customFieldDate5: formDataState["CustomFieldDate5"],
+      customFieldDate5: formDataState["CustomFieldDate5"]
+        ? moment
+            .utc(
+              formDataState["CustomFieldDate5"],
+              ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Handle both formats
+            )
+            .isValid()
+          ? moment
+              .utc(
+                formDataState["CustomFieldDate5"],
+                ["YYYY-MM-DDTHH:mm:ss.SSSZ", "MMM DD YYYY h:mmA"] // Use same formats
+              )
+              .toDate()
+          : null
+        : null,
       modifiedBy: employeeId,
-      modifiedDate: new Date().toISOString()
+      modifiedDate: new Date().toISOString(),
     };
 
     const accessToken = sessionStorage.getItem("access_token");
@@ -404,14 +861,33 @@ function BasicDetailEdit({
       const response = await axios.put(url, formDataToSave, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
 
-      console.log("API Save Response:", response.data);
+      // console.log("API Save Response:", response.data);
 
       if (response.status === 200) {
-        toast.success("Data saved successfully!");
+        const result = response.data;
+
+        if (result.data?.length > 0 && result.data[0].result === "Success") {
+          toast.success("Data saved successfully!");
+        } else {
+          toast.error(result.data?.[0]?.result || "Unexpected error occurred.");
+        }
+
+        // if (
+        //   result.data &&
+        //   result.data.length > 0 &&
+        //   result.data[0].result === "Success"
+        // ) {
+        //   toast.success("Data saved successfully!");
+        // } else {
+        //   toast.error(`${result.data?.[0]?.result || "Unexpected error"}`);
+        // }
+
+        // toast.success("Data saved successfully!");
+
         // Fetch updated initiative details again
         setRefresh1(!refresh);
       } else {
@@ -436,7 +912,9 @@ function BasicDetailEdit({
       }
 
       if (!allowedTypes.includes(file.type)) {
-        alert("Only JPG and PNG files are allowed. Please upload a valid image.");
+        alert(
+          "Only JPG and PNG files are allowed. Please upload a valid image."
+        );
         return;
       }
 
@@ -456,8 +934,8 @@ function BasicDetailEdit({
         const response = await axios.put(url, formData, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "multipart/form-data"
-          }
+            "Content-Type": "multipart/form-data",
+          },
         });
 
         console.log("setRefresh", response.status);
@@ -467,7 +945,7 @@ function BasicDetailEdit({
           const base64Image = reader.result;
           setFormDataState({
             ...formDataState,
-            profileImage: base64Image
+            profileImage: base64Image,
           });
         };
         reader.readAsDataURL(file);
@@ -484,7 +962,9 @@ function BasicDetailEdit({
     };
 
     if (initiativeDetail) {
-      const fields = Array.isArray(initiativeDetail?.data?.listInitiativeDetailEntity)
+      const fields = Array.isArray(
+        initiativeDetail?.data?.listInitiativeDetailEntity
+      )
         ? [...initiativeDetail?.data?.listInitiativeDetailEntity]
         : [];
 
@@ -517,19 +997,26 @@ function BasicDetailEdit({
                   console.log("field12222", field);
                   pimage = field.controlValue;
                 }
-                console.log(`Field: ${field.label}, Mandatory: ${field.mandatory}`); // Debugging line
+                console.log(
+                  `Field: ${field.label}, Mandatory: ${field.mandatory}`
+                ); // Debugging line
                 const isRequired = field.mandatory === 1; // This should only return true if mandatory is 1
                 const isEditable = field.isEditable === 1;
-                const options = field.initiativeDetailDropDownEntity.map((item) => ({
-                  key: item.id,
-                  text: item.name
-                }));
+                const options = field.initiativeDetailDropDownEntity.map(
+                  (item) => ({
+                    key: item.id,
+                    text: item.name,
+                  })
+                );
 
                 // Render the image and TextField on the same line for pageRoWNo: 1 and pageOrderNo: 1
                 if (field.pageRoWNo === 1 && field.pageOrderNo === 1) {
                   console.log("field1111", field);
                   return (
-                    <div key={index} className="col-md-12 d-flex align-items-center mt-2">
+                    <div
+                      key={index}
+                      className="col-md-12 d-flex align-items-center mt-2"
+                    >
                       <div className={profilePictureContainerStyles}>
                         <Image
                           src={pimage || "https://via.placeholder.com/72"}
@@ -542,7 +1029,9 @@ function BasicDetailEdit({
                         <Tooltip title="Upload Image">
                           <EditOutlinedIcon
                             className={editIconStyles}
-                            onClick={() => document.getElementById("uploadImage").click()}
+                            onClick={() =>
+                              document.getElementById("uploadImage").click()
+                            }
                           />
                         </Tooltip>
                         <input
@@ -558,18 +1047,18 @@ function BasicDetailEdit({
                         // placeholder={field.controlValue || ""}
                         className="ml-4"
                         // value={formDataState[field.actualFieldName] || ""} // Use actualFieldName
-                        //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder start here 
+                        //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder start here
                         placeholder={field.placeholder || ""} // Use a separate placeholder if needed
                         value={
                           formDataState[field.actualFieldName] !== undefined
                             ? formDataState[field.actualFieldName]
                             : field.controlValue || ""
                         } // Ensure controlValue is shown when no user input is available
-                        //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder end here                   
+                        //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder end here
                         onChange={(ev, newValue) => {
                           setFormDataState({
                             ...formDataState,
-                            [field.actualFieldName]: newValue // Use actualFieldName
+                            [field.actualFieldName]: newValue, // Use actualFieldName
                           });
                           handleFieldChange(newValue, field.actualFieldName); // Use actualFieldName
                         }}
@@ -578,23 +1067,26 @@ function BasicDetailEdit({
                         style={{
                           marginLeft: "20px",
                           flex: 1,
-                          "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "rgba(0, 0, 0, 0.23)" // Set default border color
-                          },
-                          "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "rgba(0, 0, 0, 0.5)" // Set hover border color
-                          },
-                          "&.Mui-focused .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "rgba(0, 0, 0, 0.87)" // Set focused border color
-                          }
+                          "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                            {
+                              borderColor: "rgba(0, 0, 0, 0.23)", // Set default border color
+                            },
+                          "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                            {
+                              borderColor: "rgba(0, 0, 0, 0.5)", // Set hover border color
+                            },
+                          "&.Mui-focused .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                            {
+                              borderColor: "rgba(0, 0, 0, 0.87)", // Set focused border color
+                            },
                         }}
                         InputProps={{
                           style: {
-                            borderColor: "rgba(0, 0, 0, 0.23)" // Set default border color for InputProps
+                            borderColor: "rgba(0, 0, 0, 0.23)", // Set default border color for InputProps
                           },
                           classes: {
-                            notchedOutline: "Custom-notched-outline" // Optional: Add a custom class if needed
-                          }
+                            notchedOutline: "Custom-notched-outline", // Optional: Add a custom class if needed
+                          },
                         }} // Adjust margin and flex properties
                       />
                     </div>
@@ -616,18 +1108,18 @@ function BasicDetailEdit({
                           // placeholder={field.controlValue || ""}
                           // value={formDataState[field.actualFieldName] || ""} // Use actualFieldName
 
-                          //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder start here 
+                          //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder start here
                           placeholder={field.placeholder || ""} // Use a separate placeholder if needed
                           value={
                             formDataState[field.actualFieldName] !== undefined
                               ? formDataState[field.actualFieldName]
                               : field.controlValue || ""
                           } // Ensure controlValue is shown when no user input is available
-                          //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder end here 
+                          //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder end here
                           onChange={(ev, newValue) => {
                             setFormDataState({
                               ...formDataState,
-                              [field.actualFieldName]: newValue // Use actualFieldName
+                              [field.actualFieldName]: newValue, // Use actualFieldName
                             });
                             handleFieldChange(newValue, field.actualFieldName); // Use actualFieldName
                           }}
@@ -636,22 +1128,24 @@ function BasicDetailEdit({
                           sx={{
                             marginLeft: "20px",
                             flex: 1,
-                            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "rgba(0, 0, 0, 0.23)"
-                            },
-                            "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "rgba(0, 0, 0, 0.5)"
-                            },
+                            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "rgba(0, 0, 0, 0.23)",
+                              },
+                            "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                              {
+                                borderColor: "rgba(0, 0, 0, 0.5)",
+                              },
                             "&.Mui-focused .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                            {
-                              borderColor: "rgba(0, 0, 0, 0.87)"
-                            },
+                              {
+                                borderColor: "rgba(0, 0, 0, 0.87)",
+                              },
                             "& .MuiInputLabel-root": {
-                              color: "black !important"
+                              color: "black !important",
                             },
                             "& .Mui-disabled .MuiInputLabel-root": {
-                              color: "black !important"
-                            }
+                              color: "black !important",
+                            },
                           }}
                         />
                       </div>
@@ -660,15 +1154,15 @@ function BasicDetailEdit({
                   case "Combo Box":
                     const defaultOption = {
                       key: null,
-                      text: `Select ${field.label}`
+                      text: `Select ${field.label}`,
                     };
 
                     const dropdownOptions = [
                       defaultOption,
                       ...field.initiativeDetailDropDownEntity.map((option) => ({
                         key: option.id,
-                        text: option.name
-                      }))
+                        text: option.name,
+                      })),
                     ];
 
                     return (
@@ -676,17 +1170,18 @@ function BasicDetailEdit({
                         key={index}
                         className={`col-md-4 mt-2 form-group row-${field.pageRoWNo}`}
                       >
-
                         <Dropdown
                           label={<>{field.label}</>}
                           placeholder={`Select ${field.label}`} // Placeholder text for the dropdown
                           options={dropdownOptions}
-                          selectedKey={formDataState[field.actualFieldName] ?? null} // Use actualFieldName
+                          selectedKey={
+                            formDataState[field.actualFieldName] ?? null
+                          } // Use actualFieldName
                           onChange={(ev, item) => {
                             const value = item ? item.key : null;
                             setFormDataState({
                               ...formDataState,
-                              [field.actualFieldName]: value // Use actualFieldName
+                              [field.actualFieldName]: value, // Use actualFieldName
                             });
                             handleFieldChange(value, field.actualFieldName); // Use actualFieldName
                           }}
@@ -694,8 +1189,8 @@ function BasicDetailEdit({
                           disabled={!isEditable}
                           styles={{
                             label: {
-                              color: !isEditable ? "black !important" : "" // Ensure label stays black even when disabled
-                            }
+                              color: !isEditable ? "black !important" : "", // Ensure label stays black even when disabled
+                            },
                           }}
                         />
                       </div>
@@ -710,11 +1205,45 @@ function BasicDetailEdit({
                           label={<>{field.label}</>}
                           value={
                             formDataState[field.actualFieldName]
-                              ? moment(formDataState[field.actualFieldName], moment.ISO_8601).isValid()
-                                ? new Date(formDataState[field.actualFieldName]) // ✅ Ensure Date object
+                              ? moment
+                                  .utc(
+                                    formDataState[field.actualFieldName],
+                                    // "MMM DD YYYY h:mmA","YYYY-MM-DDTHH:mm:ss.SSSZ"
+                                    [
+                                      "MMM DD YYYY h:mmA",
+                                      "YYYY-MM-DDTHH:mm:ss.SSSZ",
+                                    ]
+                                  )
+                                  .isValid()
+                                ? moment
+                                    .utc(formDataState[field.actualFieldName], [
+                                      "YYYY-MM-DDTHH:mm:ss.SSSZ",
+                                      "MMM DD YYYY h:mmA",
+                                    ])
+                                    .toDate()
                                 : null
                               : null
                           }
+                          // value={
+                          //   formDataState[field.actualFieldName]
+                          //     ? (() => {
+                          //         const dateValue =
+                          //           formDataState[field.actualFieldName];
+                          //         return dateValue instanceof Date &&
+                          //           !isNaN(dateValue)
+                          //           ? dateValue
+                          //           : moment(
+                          //               dateValue,
+                          //               "MMM DD YYYY h:mmA"
+                          //             ).isValid()
+                          //           ? moment(
+                          //               dateValue,
+                          //               "MMM DD YYYY h:mmA"
+                          //             ).toDate()
+                          //           : null;
+                          //       })()
+                          //     : null
+                          // }
                           onSelectDate={(date) => {
                             if (!date) return;
 
@@ -726,7 +1255,10 @@ function BasicDetailEdit({
                               [field.actualFieldName]: isoDate,
                             });
 
-                            console.log(`✅ ${field.actualFieldName} saved as UTC:`, isoDate);
+                            console.log(
+                              `✅ ${field.actualFieldName} saved as UTC:`,
+                              isoDate
+                            );
 
                             handleFieldChange(isoDate, field.actualFieldName);
                           }}
@@ -735,11 +1267,12 @@ function BasicDetailEdit({
                           disabled={!field.isEditable}
                           styles={{
                             label: {
-                              color: !field.isEditable ? "black !important" : "",
+                              color: !field.isEditable
+                                ? "black !important"
+                                : "",
                             },
                           }}
                         />
-
 
                         {/* <DatePicker
                           label={<>{field.label}</>}
@@ -771,7 +1304,6 @@ function BasicDetailEdit({
                             }
                           }}
                         /> */}
-
                       </div>
                     );
 
@@ -785,18 +1317,18 @@ function BasicDetailEdit({
                           label={<>{field.label}</>}
                           // placeholder={field.controlValue || ""}
                           // value={formDataState[field.actualFieldName] || ""} // Use actualFieldName
-                          //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder start here 
+                          //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder start here
                           placeholder={field.placeholder || ""} // Use a separate placeholder if needed
                           value={
                             formDataState[field.actualFieldName] !== undefined
                               ? formDataState[field.actualFieldName]
                               : field.controlValue || ""
                           } // Ensure controlValue is shown when no user input is available
-                          //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder end here                          
+                          //  Added By Madhuri.K On 06-Feb-2025 for value is showing as placeholder end here
                           onChange={(ev, newValue) => {
                             setFormDataState({
                               ...formDataState,
-                              [field.actualFieldName]: newValue // Use actualFieldName
+                              [field.actualFieldName]: newValue, // Use actualFieldName
                             });
                             handleFieldChange(newValue, field.actualFieldName); // Use actualFieldName
                           }}
@@ -806,8 +1338,8 @@ function BasicDetailEdit({
                           disabled={!isEditable}
                           InputLabelProps={{
                             style: {
-                              color: !isEditable ? "black !important" : "" // Ensure label stays black even when disabled
-                            }
+                              color: !isEditable ? "black !important" : "", // Ensure label stays black even when disabled
+                            },
                           }}
                         />
                       </div>
@@ -832,8 +1364,8 @@ function BasicDetailEdit({
         {}, // Empty request body (if no data is being sent)
         {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`
-          }
+            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+          },
         }
       );
 
@@ -845,7 +1377,7 @@ function BasicDetailEdit({
         if (responseResult === "Success") {
           toast.success("Initiative Withdrawn successfully!", {
             position: "top-right",
-            autoClose: 3000 // Close after 3 seconds
+            autoClose: 3000, // Close after 3 seconds
           });
           setRefresh1(!refresh);
         } else {
@@ -926,8 +1458,8 @@ function BasicDetailEdit({
         // { comments },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
       const result = response?.data?.data?.[0]?.result;
@@ -940,7 +1472,8 @@ function BasicDetailEdit({
     } catch (error) {
       // Show error toast
       const errorMessage =
-        error.response?.data?.message || "An error occurred while submitting the action.";
+        error.response?.data?.message ||
+        "An error occurred while submitting the action.";
       toast.error(errorMessage); // Show error toast with message from API
       console.error("Error while submitting the action:", error);
     } finally {
@@ -985,14 +1518,15 @@ function BasicDetailEdit({
         {},
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
 
       toast.success(`${modalTitle} action completed successfully!`); // Show success toast
 
-      const emailData = response?.data?.data?.listWorkflowActionResponseEntity[0];
+      const emailData =
+        response?.data?.data?.listWorkflowActionResponseEntity[0];
       console.log("emailData listWorkflowActionResponseEntity", emailData);
       if (emailData?.message === "Success") {
         await sendSubmitActionEmail(emailData);
@@ -1004,7 +1538,8 @@ function BasicDetailEdit({
     } catch (error) {
       // Show error toast
       const errorMessage =
-        error.response?.data?.message || "An error occurred while submitting the action.";
+        error.response?.data?.message ||
+        "An error occurred while submitting the action.";
       toast.error(errorMessage); // Show error toast with message from API
       console.error("Error while submitting the action:", error);
     } finally {
@@ -1014,7 +1549,6 @@ function BasicDetailEdit({
 
   // Added by Gauri to send mail after save on 05 Mar 2025
   const sendSubmitActionEmail = async (emailData) => {
-    debugger
     try {
       const emailUrl = `${process.env.REACT_APP_BASEURL_ACCESS_CONTROL1}/api/EmailService/SendMail`;
       const params = {
@@ -1023,15 +1557,15 @@ function BasicDetailEdit({
         ccAddress: emailData.ccEmailAddress,
         subject: emailData.subject.replace(/\r\n/g, " "),
         body: emailData.body.replace(/\r\n/g, "<br>"),
-        isHtml: 1
+        isHtml: 1,
       };
       console.log("Sending Email with params:", params);
 
       const token = sessionStorage.getItem("access_token");
       const response = await axios.post(emailUrl, params, {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("access_token")}`
-        }
+          Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+        },
       });
 
       console.log("Email response", response);
@@ -1052,7 +1586,9 @@ function BasicDetailEdit({
   };
 
   const renderDynamicButtons = () => {
-    const buttonTexts = (initiativeLinkAccess?.data?.listInitiativeLinkAccessEntity || [])
+    const buttonTexts = (
+      initiativeLinkAccess?.data?.listInitiativeLinkAccessEntity || []
+    )
       .filter((button) => button.display === 1) // Exclude "Manage Workflow"
       .map((button, index) => (
         <span
@@ -1061,9 +1597,11 @@ function BasicDetailEdit({
           style={{
             cursor: "pointer",
             marginRight:
-              index < initiativeLinkAccess.data.listInitiativeLinkAccessEntity.length - 1
+              index <
+              initiativeLinkAccess.data.listInitiativeLinkAccessEntity.length -
+                1
                 ? "8px"
-                : "0"
+                : "0",
           }}
         >
           {button.linkName}
@@ -1148,7 +1686,7 @@ function BasicDetailEdit({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                padding: "0.5rem 1rem"
+                padding: "0.5rem 1rem",
               }}
             >
               <h6>{modalTitle}</h6>
@@ -1161,7 +1699,7 @@ function BasicDetailEdit({
                   right: "20px",
                   border: "none",
                   outline: "none",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
               >
                 <Tooltip title="Close">
@@ -1207,14 +1745,24 @@ function BasicDetailEdit({
         onClose={handleCloseDrawer}
       />
       {/* Passed initiativesData by Gauri for manage workflow stages on 24 Mar 2025 */}
-      <WorkflowDrawer initiativesID={initiativesID} 
-      initiativesData={iniData} 
-      open={open1} setOpen={setOpen1} />
-      <ActionItems initiativeActioItems={initiativeActioItems} open={aopen} setOpen={setAOpen} />
-      <WorkflowInfo open={drawerOpen} onClose={handleDrawerClose} initiativesID={initiativesID} />
+      <WorkflowDrawer
+        initiativesID={initiativesID}
+        initiativesData={iniData}
+        open={open1}
+        setOpen={setOpen1}
+      />
+      <ActionItems
+        initiativeActioItems={initiativeActioItems}
+        open={aopen}
+        setOpen={setAOpen}
+      />
+      <WorkflowInfo
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        initiativesID={initiativesID}
+      />
     </div>
   );
 }
 
 export default BasicDetailEdit;
-

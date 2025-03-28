@@ -49,7 +49,7 @@ const ResubmitDrawer = ({ title, initiativeId, isOpen, onClose, setRefresh12 }) 
   };
 
   const handleResubmit = async () => {
-    // debugger
+    
     try {
       const token = sessionStorage.getItem("access_token");
       const userdata = JSON.parse(sessionStorage.getItem("user"));

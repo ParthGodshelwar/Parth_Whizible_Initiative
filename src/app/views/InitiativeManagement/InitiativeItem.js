@@ -10,7 +10,7 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
-  Avatar
+  Avatar,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import FlagIcon from "@mui/icons-material/Flag";
@@ -28,11 +28,12 @@ const InitiativeItem = ({
   setIsEditing,
   isEditing,
   SetinitiativesID,
+  setIdeaID,
   startEditing,
   stopEditing,
   canEdit,
   setImage,
-  image
+  image,
 }) => {
   const {
     title,
@@ -54,7 +55,7 @@ const InitiativeItem = ({
     employeeName,
     employeeImage,
     isRejected,
-    initiativeListStageDetails
+    initiativeListStageDetails,
   } = initiative;
   console.log("employeeImage", employeeImage);
   // State for managing drawers and editing
@@ -105,7 +106,9 @@ const InitiativeItem = ({
     setCStageName(initiative.stageName); // Assuming stageName represents current stage
 
     // Check for the current stage in initiativeListStageDetails
-    const currentStage = initiativeListStageDetails.find((stage) => stage.isCurrentStage === 1);
+    const currentStage = initiativeListStageDetails.find(
+      (stage) => stage.isCurrentStage === 1
+    );
     if (currentStage) {
       setDueIn(currentStage.dueinDays); // Set dueIn to the dueinDays of the current stage
     } else {
@@ -152,18 +155,25 @@ const InitiativeItem = ({
                 sx={{ width: 18, height: 18, marginRight: "0.5rem" }} // Adjust margin if needed
               />
               {/* Title */}
-              <Tooltip title={isRejected === 1 ? `${title} (rejected)` : title} arrow>
+              <Tooltip
+                title={isRejected === 1 ? `${title} (rejected)` : title}
+                arrow
+              >
                 <Typography
                   style={{
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     maxWidth: "120px",
-                    color: isRejected === 1 ? "lightcoral" : "inherit" // Use light red when rejected
+                    color: isRejected === 1 ? "lightcoral" : "inherit", // Use light red when rejected
                   }}
                 >
                   {isRejected === 1
-                    ? `${title?.length > 30 ? `${title.substring(0, 30)}...` : title}`
+                    ? `${
+                        title?.length > 30
+                          ? `${title.substring(0, 30)}...`
+                          : title
+                      }`
                     : title?.length > 30
                     ? `${title.substring(0, 30)}...`
                     : title}
@@ -198,7 +208,7 @@ const InitiativeItem = ({
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              width: "100%"
+              width: "100%",
             }}
           >
             <div className="left-side">
@@ -208,7 +218,8 @@ const InitiativeItem = ({
                 color="textSecondary"
                 style={{ fontSize: "0.6rem" }}
               >
-                Current Stage: <strong style={{ color: "grey" }}> {cstageName}</strong>
+                Current Stage:{" "}
+                <strong style={{ color: "grey" }}> {cstageName}</strong>
               </Typography>
             </div>
             <div className="right-side" style={{ textAlign: "right" }}>
@@ -234,7 +245,7 @@ const InitiativeItem = ({
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <div className="left-side">
@@ -244,7 +255,8 @@ const InitiativeItem = ({
                 color="textSecondary"
                 style={{ fontSize: "0.6rem" }}
               >
-                <strong style={{ color: "grey" }}> {completedStage} </strong> stages completed
+                <strong style={{ color: "grey" }}> {completedStage} </strong>{" "}
+                stages completed
               </Typography>
             </div>
             <div className="right-side" style={{ textAlign: "right" }}>
@@ -254,7 +266,8 @@ const InitiativeItem = ({
                 color="textSecondary"
                 style={{ fontSize: "0.6rem" }}
               >
-                <strong style={{ color: "grey" }}> & {noOfStageRemain} </strong> More stages...
+                <strong style={{ color: "grey" }}> & {noOfStageRemain} </strong>{" "}
+                More stages...
               </Typography>
             </div>
           </Box>
@@ -271,6 +284,7 @@ const InitiativeItem = ({
                       if (canEdit) {
                         startEditing();
                         SetinitiativesID(ideaIdPk);
+                        setIdeaID(ideaIdPk);
                         setImage(initiativeImage);
                         sessionStorage.setItem("ideaIdPk", ideaIdPk);
                       } else {
@@ -289,7 +303,10 @@ const InitiativeItem = ({
                 </Tooltip>
 
                 <Tooltip title="Initiative History">
-                  <IconButton size="small" onClick={() => setHistoryDrawerOpen(true)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => setHistoryDrawerOpen(true)}
+                  >
                     <AccessTimeIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>

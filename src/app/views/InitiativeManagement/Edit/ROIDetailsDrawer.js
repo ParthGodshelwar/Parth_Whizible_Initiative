@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { Drawer, Select, MenuItem, TextField, Box, Tabs, Tab } from "@mui/material";
+import {
+  Drawer,
+  Select,
+  MenuItem,
+  TextField,
+  Box,
+  Tabs,
+  Tab,
+} from "@mui/material";
 import { PrimaryButton } from "@fluentui/react/lib/Button";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,7 +29,7 @@ const monthToNumber = {
   September: 9,
   October: 10,
   November: 11,
-  December: 12
+  December: 12,
 };
 
 const ROIDetailsDrawer = ({
@@ -34,11 +42,15 @@ const ROIDetailsDrawer = ({
   setRefresh1,
   refresh,
   acc,
-  initiativeROI
+  initiativeROI,
 }) => {
-  const [month, setMonth] = useState(initialData ? initialData.month : "January");
+  const [month, setMonth] = useState(
+    initialData ? initialData.month : "January"
+  );
   const [year, setYear] = useState(initialData ? initialData.year : "2023");
-  const [projectedROI, setProjectedROI] = useState(initialData ? initialData.projectedROI : "");
+  const [projectedROI, setProjectedROI] = useState(
+    initialData ? initialData.projectedROI : ""
+  );
   // Below Line Added By Durgesh Dalvi : To ensure it is the value which do not changes when the form value changes
   const [actualProjectedROI, setActualProjectedROI] = useState(
     initialData ? initialData.projectedROI : ""
@@ -48,16 +60,22 @@ const ROIDetailsDrawer = ({
   //Added By Durgesh.D
   const [editableFields, setEditableFields] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [errors, setErrors] = useState({ month: "", year: "", projectedROI: "" });
+  const [errors, setErrors] = useState({
+    month: "",
+    year: "",
+    projectedROI: "",
+  });
   // Added by Gauri to get Initiative End Date on 07 Mar 2025
-  const [initiativeEndDate, setInitiativeEndDate] = useState(initiativeDetail.data.listInitiativeDetailEntity[11].controlValue);
+  const [initiativeEndDate, setInitiativeEndDate] = useState(
+    initiativeDetail.data.listInitiativeDetailEntity[11].controlValue
+  );
   const [formState, setFormState] = useState({
     costCategory: "",
     amount: "",
     costType: "", // This will hold 0 or 1 for Recurring or Fixed
     fromDate: null,
     toDate: null,
-    description: ""
+    description: "",
   });
   const yearRange = Array.from({ length: 50 }, (_, i) => 1990 + i);
   const userdata = JSON.parse(sessionStorage.getItem("user"));
@@ -66,11 +84,21 @@ const ROIDetailsDrawer = ({
 
   console.log("employeeId", initialData);
   console.log("ROI initiativeEndDate:", initiativeEndDate);
-  
+
   // Added by Gauri to add validation alert for Initiative End Date on 07 Mar 2025
   const shortMonthToNumber = {
-    Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, 
-    Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12
+    Jan: 1,
+    Feb: 2,
+    Mar: 3,
+    Apr: 4,
+    May: 5,
+    Jun: 6,
+    Jul: 7,
+    Aug: 8,
+    Sep: 9,
+    Oct: 10,
+    Nov: 11,
+    Dec: 12,
   };
 
   let initiativeEndYear = null;
@@ -84,11 +112,11 @@ const ROIDetailsDrawer = ({
   if (initiativeEndDate) {
     // Extract parts of the date string
     const parts = initiativeEndDate.split(" "); // Splitting by space: ["Feb", "28", "2025", "12:00AM"]
-  
+
     if (parts.length >= 3) {
       const monthName = parts[0]; // "Feb"
       const year = parseInt(parts[2], 10); // "2025"
-  
+
       initiativeEndYear = isNaN(year) ? null : year; // Ensure it's a valid number
       initiativeEndMonthNumber = shortMonthToNumber[monthName]; // Convert "Feb" -> 2
       initiativeEndMonthName = monthName; // Already in correct format
@@ -114,8 +142,8 @@ const ROIDetailsDrawer = ({
     const existingProjectedROI = parseFloat(actualProjectedROI);
 
     const totalMonthlySum = editedData.reduce((sum, item) => {
-      debugger
-      return sum +
+      return (
+        sum +
         (parseFloat(item.jan) || 0) +
         (parseFloat(item.feb) || 0) +
         (parseFloat(item.mar) || 0) +
@@ -127,9 +155,10 @@ const ROIDetailsDrawer = ({
         (parseFloat(item.sep) || 0) +
         (parseFloat(item.oct) || 0) +
         (parseFloat(item.nov) || 0) +
-        (parseFloat(item.dec) || 0);
+        (parseFloat(item.dec) || 0)
+      );
     }, 0);
-  
+
     // Check if the new Projected ROI is lower than the existing one
     // if (newProjectedROI < existingProjectedROI) {
     if (newProjectedROI < totalMonthlySum) {
@@ -157,38 +186,53 @@ const ROIDetailsDrawer = ({
           const newYear = parseInt(year, 10);
           const lastMonthNumber = monthToNumber[lastRecord.monthName];
           const lastYear = lastRecord.roiYear;
-        
+
           // Modified by Gauri to check validation for existing record on 12 Mar 2025
           // Skip validation if editing the same record
           if (initialData?.id) {
             const isEditingSameRecord =
-              initialData.month === month && initialData.year.toString() === year;
-        
+              initialData.month === month &&
+              initialData.year.toString() === year;
+
             if (!isEditingSameRecord) {
               // Validate if it's a new entry or different edit
-              if (newYear < lastYear || (newYear === lastYear && newMonthNumber <= lastMonthNumber)) {
-                toast.error(`Enter Month and Year Date combination greater than '${lastRecord.monthName}-${lastRecord.roiYear}'`);
+              if (
+                newYear < lastYear ||
+                (newYear === lastYear && newMonthNumber <= lastMonthNumber)
+              ) {
+                toast.error(
+                  `Enter Month and Year Date combination greater than '${lastRecord.monthName}-${lastRecord.roiYear}'`
+                );
                 return;
               }
             }
           } else {
             // Validation for new records only
-            if (newYear < lastYear || (newYear === lastYear && newMonthNumber <= lastMonthNumber)) {
-              toast.error(`Enter Month and Year Date combination greater than '${lastRecord.monthName}-${lastRecord.roiYear}'`);
+            if (
+              newYear < lastYear ||
+              (newYear === lastYear && newMonthNumber <= lastMonthNumber)
+            ) {
+              toast.error(
+                `Enter Month and Year Date combination greater than '${lastRecord.monthName}-${lastRecord.roiYear}'`
+              );
               return;
             }
-          }      
-        }      
+          }
+        }
 
         // Added by Gauri to add validation alert "Enter Month and Year Date combination greater than Initiative End Date on 07 Mar 2025
         if (initiativeEndYear && initiativeEndMonthNumber) {
-          if (newYear < initiativeEndYear || (newYear === initiativeEndYear && newMonthNumber <= initiativeEndMonthNumber)) {
+          if (
+            newYear < initiativeEndYear ||
+            (newYear === initiativeEndYear &&
+              newMonthNumber <= initiativeEndMonthNumber)
+          ) {
             toast.error(
               `Enter Month and Year Date combination greater than '${initiativeEndMonthName}-${initiativeEndYear}'`
             );
             return;
           }
-        }        
+        }
         // End of Gauri to add validation alert "Enter Month and Year Date combination greater than Initiative End Date on 07 Mar 2025
 
         if (initialData?.id) {
@@ -196,8 +240,8 @@ const ROIDetailsDrawer = ({
           const postUrl = `${process.env.REACT_APP_BASEURL_ACCESS_CONTROL1}/api/InitiativeDetail/UpdateInitiativeROI?ROIID=${initialData.id}&ROIMonth=${monthToNumber[month]}&ROIYear=${year}&ProjectedROI=${projectedROI}&UserID=${employeeId}&IdeaId=${initiativesID}`;
           const postResponse = await axios.put(postUrl, null, {
             headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("access_token")}`
-            }
+              Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+            },
           });
 
           if (postResponse.data) {
@@ -212,8 +256,8 @@ const ROIDetailsDrawer = ({
           const putUrl = `${process.env.REACT_APP_BASEURL_ACCESS_CONTROL1}/api/InitiativeDetail/PostInitiativeROI?ROIMonth=${monthToNumber[month]}&ROIYear=${year}&ProjectedROI=${projectedROI}&UserID=${employeeId}&IdeaId=${initiativesID}`;
           const putResponse = await axios.post(putUrl, null, {
             headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("access_token")}`
-            }
+              Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+            },
           });
 
           if (putResponse.data) {
@@ -234,42 +278,56 @@ const ROIDetailsDrawer = ({
 
   // Modified By Durgesh Dalvi: to pass pn properly formatted data to the api
   const handleSaveMonthDistribution = async () => {
-    debugger
-    try { 
+    try {
       // Added by Gauri to add alert for blank values on 05 Mar 2025
       const hasBlankValue = editedData.some((item, index) => {
         return [
-          "jan", "feb", "mar", "april", "may", "june",
-          "july", "aug", "sep", "oct", "nov", "dec"
+          "jan",
+          "feb",
+          "mar",
+          "april",
+          "may",
+          "june",
+          "july",
+          "aug",
+          "sep",
+          "oct",
+          "nov",
+          "dec",
         ].some((month) => {
           const value = item[month];
           const initialValue = editableFields[index]?.[month]; // Get the initial value
-      
+
           // Only show an error if the user cleared a previously filled value
-          return initialValue !== "" && initialValue !== null && initialValue !== undefined && value === "";
+          return (
+            initialValue !== "" &&
+            initialValue !== null &&
+            initialValue !== undefined &&
+            value === ""
+          );
         });
       });
-      
+
       if (hasBlankValue) {
         toast.error("Monthly Amount should not be blank.");
         return;
-      }      
+      }
       // End of Added by Gauri to add alert for blank values on 05 Mar 2025
 
       const hasNegativeValue = editedData.some((item) => {
         return [
-        "jan",
-        "feb",
-        "mar",
-        "april",
-        "may",
-        "june",
-        "july",
-        "aug",
-        "sep",
-        "oct",
-        "nov",
-        "dec"
+          "jan",
+          "feb",
+          "mar",
+          "april",
+          "may",
+          "june",
+          "july",
+          "aug",
+          "sep",
+          "oct",
+          "nov",
+          "dec",
         ].some((month) => {
           const value = item[month];
           return value < 0;
@@ -294,11 +352,14 @@ const ROIDetailsDrawer = ({
           "sep",
           "oct",
           "nov",
-          "dec"
+          "dec",
         ].some((month) => {
           const value = item[month];
           return (
-            value !== null && value !== undefined && value !== "" && !/^\d*\.?\d+$/.test(value)
+            value !== null &&
+            value !== undefined &&
+            value !== "" &&
+            !/^\d*\.?\d+$/.test(value)
           );
         })
       );
@@ -310,7 +371,8 @@ const ROIDetailsDrawer = ({
 
       // Added by Gauri to add validation for sum of all month values on 19 Mar 2025
       const totalMonthlySum = editedData.reduce((sum, item) => {
-        return sum +
+        return (
+          sum +
           (parseFloat(item.jan) || 0) +
           (parseFloat(item.feb) || 0) +
           (parseFloat(item.mar) || 0) +
@@ -322,12 +384,12 @@ const ROIDetailsDrawer = ({
           (parseFloat(item.sep) || 0) +
           (parseFloat(item.oct) || 0) +
           (parseFloat(item.nov) || 0) +
-          (parseFloat(item.dec) || 0);
+          (parseFloat(item.dec) || 0)
+        );
       }, 0);
 
       // if (exceedsAmount) {
       if (totalMonthlySum > actualProjectedROI) {
-        debugger
         toast.error(
           `Total of all monthly distribution should not exceed Amount ${actualProjectedROI}`
         );
@@ -339,19 +401,55 @@ const ROIDetailsDrawer = ({
         roiid: initialData.id,
         monthlyDistributionROI: editedData.map((item) => ({
           roiDivisionID: item.roiid,
-          jan: item.jan !== null && item.jan !== undefined ? parseFloat(item.jan) : null,
-          feb: item.feb !== null && item.feb !== undefined ? parseFloat(item.feb) : null,
-          mar: item.mar !== null && item.mar !== undefined ? parseFloat(item.mar) : null,
-          apr: item.april !== null && item.april !== undefined ? parseFloat(item.april) : null,
-          may: item.may !== null && item.may !== undefined ? parseFloat(item.may) : null,
-          jun: item.june !== null && item.june !== undefined ? parseFloat(item.june) : null,
-          jul: item.july !== null && item.july !== undefined ? parseFloat(item.july) : null,
-          aug: item.aug !== null && item.aug !== undefined ? parseFloat(item.aug) : null,
-          sep: item.sep !== null && item.sep !== undefined ? parseFloat(item.sep) : null,
-          oct: item.oct !== null && item.oct !== undefined ? parseFloat(item.oct) : null,
-          nov: item.nov !== null && item.nov !== undefined ? parseFloat(item.nov) : null,
-          dec: item.dec !== null && item.dec !== undefined ? parseFloat(item.dec) : null
-        }))
+          jan:
+            item.jan !== null && item.jan !== undefined
+              ? parseFloat(item.jan)
+              : null,
+          feb:
+            item.feb !== null && item.feb !== undefined
+              ? parseFloat(item.feb)
+              : null,
+          mar:
+            item.mar !== null && item.mar !== undefined
+              ? parseFloat(item.mar)
+              : null,
+          apr:
+            item.april !== null && item.april !== undefined
+              ? parseFloat(item.april)
+              : null,
+          may:
+            item.may !== null && item.may !== undefined
+              ? parseFloat(item.may)
+              : null,
+          jun:
+            item.june !== null && item.june !== undefined
+              ? parseFloat(item.june)
+              : null,
+          jul:
+            item.july !== null && item.july !== undefined
+              ? parseFloat(item.july)
+              : null,
+          aug:
+            item.aug !== null && item.aug !== undefined
+              ? parseFloat(item.aug)
+              : null,
+          sep:
+            item.sep !== null && item.sep !== undefined
+              ? parseFloat(item.sep)
+              : null,
+          oct:
+            item.oct !== null && item.oct !== undefined
+              ? parseFloat(item.oct)
+              : null,
+          nov:
+            item.nov !== null && item.nov !== undefined
+              ? parseFloat(item.nov)
+              : null,
+          dec:
+            item.dec !== null && item.dec !== undefined
+              ? parseFloat(item.dec)
+              : null,
+        })),
       };
 
       console.log("requestData:", JSON.stringify(requestData));
@@ -363,9 +461,9 @@ const ROIDetailsDrawer = ({
           headers: {
             accept: "*/*",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`
+            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
           },
-          body: JSON.stringify(requestData)
+          body: JSON.stringify(requestData),
         }
       );
 
@@ -397,9 +495,9 @@ const ROIDetailsDrawer = ({
         headers: {
           accept: "*/*",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("access_token")}`
+          Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
       }
     );
 
@@ -420,7 +518,7 @@ const ROIDetailsDrawer = ({
   const handleFieldChange = (year, month, value) => {
     // Added by Gauri to Prevent negative numbers on 05 Mar 2025
     if (!/^\d*\.?\d*$/.test(value)) {
-      return; 
+      return;
     }
 
     setEditedData((prevData) =>
@@ -446,28 +544,32 @@ const ROIDetailsDrawer = ({
     try {
       const response = await axios.get(apiUrl, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.data.data && response.data.data.listROIMonthlyDistribution) {
         setMonthlyData(response.data.data.listROIMonthlyDistribution);
         //Durgesh
-        const transformedData = response.data.data.listROIMonthlyDistribution.map((item) => ({
-          ...item,
-          jan: item.jan === null || item.jan === undefined ? "" : item.jan,
-          feb: item.feb === null || item.feb === undefined ? "" : item.feb,
-          mar: item.mar === null || item.mar === undefined ? "" : item.mar,
-          april: item.april === null || item.april === undefined ? "" : item.april,
-          may: item.may === null || item.may === undefined ? "" : item.may,
-          june: item.june === null || item.june === undefined ? "" : item.june,
-          july: item.july === null || item.july === undefined ? "" : item.july,
-          aug: item.aug === null || item.aug === undefined ? "" : item.aug,
-          sep: item.sep === null || item.sep === undefined ? "" : item.sep,
-          oct: item.oct === null || item.oct === undefined ? "" : item.oct,
-          nov: item.nov === null || item.nov === undefined ? "" : item.nov,
-          dec: item.dec === null || item.dec === undefined ? "" : item.dec
-        }));
+        const transformedData =
+          response.data.data.listROIMonthlyDistribution.map((item) => ({
+            ...item,
+            jan: item.jan === null || item.jan === undefined ? "" : item.jan,
+            feb: item.feb === null || item.feb === undefined ? "" : item.feb,
+            mar: item.mar === null || item.mar === undefined ? "" : item.mar,
+            april:
+              item.april === null || item.april === undefined ? "" : item.april,
+            may: item.may === null || item.may === undefined ? "" : item.may,
+            june:
+              item.june === null || item.june === undefined ? "" : item.june,
+            july:
+              item.july === null || item.july === undefined ? "" : item.july,
+            aug: item.aug === null || item.aug === undefined ? "" : item.aug,
+            sep: item.sep === null || item.sep === undefined ? "" : item.sep,
+            oct: item.oct === null || item.oct === undefined ? "" : item.oct,
+            nov: item.nov === null || item.nov === undefined ? "" : item.nov,
+            dec: item.dec === null || item.dec === undefined ? "" : item.dec,
+          }));
 
         setEditedData(transformedData);
         setEditableFields(transformedData);
@@ -487,7 +589,7 @@ const ROIDetailsDrawer = ({
       <Box
         sx={{
           width: { xs: "100%", sm: "80vw" }, // Set width to 100% for extra-small screens, 600px for small screens and above
-          padding: 2
+          padding: 2,
         }}
       >
         <Box
@@ -497,7 +599,7 @@ const ROIDetailsDrawer = ({
             alignItems: "center",
             marginBottom: 2,
             backgroundColor: "#f5f5f5", // Set the background color here (light gray example)
-            padding: 2 // Add padding if needed to create spacing around the content
+            padding: 2, // Add padding if needed to create spacing around the content
           }}
         >
           <h5>ROI Details</h5>
@@ -517,7 +619,10 @@ const ROIDetailsDrawer = ({
           >
             <Tab label="Details" sx={{ textTransform: "none" }} />
             {initialData?.projectedROI && (
-              <Tab label="Monthly Distribution" sx={{ textTransform: "none" }} />
+              <Tab
+                label="Monthly Distribution"
+                sx={{ textTransform: "none" }}
+              />
             )}
           </Tabs>
         </Box>
@@ -531,7 +636,9 @@ const ROIDetailsDrawer = ({
             }}
           >
             {acc[2]?.access !== 0 && (
-              <Box sx={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+              <Box
+                sx={{ flex: 1, display: "flex", justifyContent: "flex-end" }}
+              >
                 <PrimaryButton onClick={handleSaveROI} disabled={loading}>
                   {loading ? "Saving..." : "Save"}
                 </PrimaryButton>
@@ -565,7 +672,9 @@ const ROIDetailsDrawer = ({
                     </MenuItem>
                   ))}
                 </Select>
-                {errors.month && <span style={{ color: "red" }}>{errors.month}</span>}
+                {errors.month && (
+                  <span style={{ color: "red" }}>{errors.month}</span>
+                )}
               </Box>
               <Box sx={{ flex: 1 }}>
                 <label>
@@ -588,7 +697,9 @@ const ROIDetailsDrawer = ({
                   ))}
                 </Select>
                 {errors.year && (
-                  <span style={{ color: "red", fontSize: "12px" }}>{errors.year}</span>
+                  <span style={{ color: "red", fontSize: "12px" }}>
+                    {errors.year}
+                  </span>
                 )}
               </Box>
 
@@ -608,15 +719,17 @@ const ROIDetailsDrawer = ({
                   }}
                   type="text" // Use text to enable regex validation
                   inputProps={{
-                    inputMode: "decimal" // Ensure appropriate keyboard for numeric input
+                    inputMode: "decimal", // Ensure appropriate keyboard for numeric input
                   }}
                   fullWidth
                   InputProps={{
-                    style: { height: 36 } // Adjust height for TextField
+                    style: { height: 36 }, // Adjust height for TextField
                   }}
                 />
 
-                {errors.projectedROI && <span style={{ color: "red" }}>{errors.projectedROI}</span>}
+                {errors.projectedROI && (
+                  <span style={{ color: "red" }}>{errors.projectedROI}</span>
+                )}
               </Box>
             </Box>
           </Box>
@@ -626,7 +739,9 @@ const ROIDetailsDrawer = ({
           <Box sx={{ padding: 2 }}>
             {acc[2]?.access !== 0 && (
               <div style={{ textAlign: "right" }} className="mb-2">
-                <PrimaryButton onClick={handleSaveMonthDistribution}>Save</PrimaryButton>
+                <PrimaryButton onClick={handleSaveMonthDistribution}>
+                  Save
+                </PrimaryButton>
               </div>
             )}
             <table className="table table-bordered">
@@ -664,7 +779,7 @@ const ROIDetailsDrawer = ({
                       "sep",
                       "oct",
                       "nov",
-                      "dec"
+                      "dec",
                     ].map((month, index) => {
                       //const currentValue =
                       //editedData.find((i) => i.year === item.year)?.[month] || "";
@@ -673,15 +788,18 @@ const ROIDetailsDrawer = ({
 
                       //Durgesh
 
-                      const currentValue = editedData.find((i) => i.year === item.year)?.[month];
+                      const currentValue = editedData.find(
+                        (i) => i.year === item.year
+                      )?.[month];
 
                       // const displayValue =
                       //  currentValue === null || currentValue === undefined ? "" : currentValue;
 
-                      const initialValue = editableFields.find((i) => i.year === item.year)?.[
-                        month
-                      ];
-                      const isEditable = initialValue !== "" && initialValue !== undefined;
+                      const initialValue = editableFields.find(
+                        (i) => i.year === item.year
+                      )?.[month];
+                      const isEditable =
+                        initialValue !== "" && initialValue !== undefined;
 
                       return (
                         //Modified By Durgesh Dalvi : implemented disabled attribute
@@ -691,7 +809,13 @@ const ROIDetailsDrawer = ({
                               className="form-control"
                               value={currentValue}
                               style={{ fontSize: "12px" }}
-                              onChange={(e) => handleFieldChange(item.year, month, e.target.value)}
+                              onChange={(e) =>
+                                handleFieldChange(
+                                  item.year,
+                                  month,
+                                  e.target.value
+                                )
+                              }
                               disabled={!isEditable}
                             />
                           </Tooltip>

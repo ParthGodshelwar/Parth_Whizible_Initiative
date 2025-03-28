@@ -13,13 +13,13 @@ import {
   Card,
   CardContent,
   Grid,
-  Typography
+  Typography,
 } from "@mui/material";
 import {
   ViewList,
   ViewModule,
   ArrowBack as ArrowBackIcon,
-  ArrowForward as ArrowForwardIcon
+  ArrowForward as ArrowForwardIcon,
 } from "@mui/icons-material"; // Icons for navigation
 import "./InitiativeList.css"; // Import your CSS file for styles
 import SearchIcon from "../../../assets/img/search-icn.svg";
@@ -49,15 +49,23 @@ const InitiativeList = ({
   handleDisabledClick,
   totalPages,
   setImage,
-  image
+  image,
+  setIdeaID,
 }) => {
-  const [filteredInitiatives, setFilteredInitiatives] = useState(initiatives || []);
+  const [filteredInitiatives, setFilteredInitiatives] = useState(
+    initiatives || []
+  );
   const [searchTermOnTime, setSearchTermOnTime] = useState(""); // State for On Time search
   const [searchTermDelayed, setSearchTermDelayed] = useState(""); // State for Delayed search
   const [searchTermDraft, setSearchTermDraft] = useState(""); // State for Draft search
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  console.log("initiatives1888", dashboardData1, dashboardData2, dashboardData3);
+  console.log(
+    "initiatives1888",
+    dashboardData1,
+    dashboardData2,
+    dashboardData3
+  );
   console.log("totalPages", totalPages, currentPage);
 
   // Effect to update filtered initiatives when the initiatives prop changes
@@ -115,7 +123,10 @@ const InitiativeList = ({
         <span className="ms-2">Delay</span>
       </div>
       <div className="legendList">
-        <span id="lgdStageNotStartedYet" className="legendSquare lgdGray"></span>
+        <span
+          id="lgdStageNotStartedYet"
+          className="legendSquare lgdGray"
+        ></span>
         <span className="ms-2">Not started yet</span>
       </div>
     </div>
@@ -130,18 +141,38 @@ const InitiativeList = ({
           <Table className="table table-bordered">
             <TableHead>
               <TableRow>
-                <TableCell className="thOuter custom-col-width" style={{ width: "25%" }}>
-                  <div className="igph_title position-relative">Initiative Title</div>
+                <TableCell
+                  className="thOuter custom-col-width"
+                  style={{ width: "25%" }}
+                >
+                  <div className="igph_title position-relative">
+                    Initiative Title
+                  </div>
                 </TableCell>
-                <TableCell className="thOuter col-sm-2" style={{ width: "20%" }}>
-                  <div className="igph_title position-relative">Nature of Initiative</div>
+                <TableCell
+                  className="thOuter col-sm-2"
+                  style={{ width: "20%" }}
+                >
+                  <div className="igph_title position-relative">
+                    Nature of Initiative
+                  </div>
                 </TableCell>
-                <TableCell className="thOuter col-sm-5" style={{ width: "40%" }}>
-                  <div className="igph_title position-relative text-center pb-1">Stages</div>
+                <TableCell
+                  className="thOuter col-sm-5"
+                  style={{ width: "40%" }}
+                >
+                  <div className="igph_title position-relative text-center pb-1">
+                    Stages
+                  </div>
                   <div className="stagesLegendContainer">{stagesLegend}</div>
                 </TableCell>
-                <TableCell className="thOuter col-sm-1" style={{ width: "15%" }}>
-                  <div className="igph_title text-center position-relative">Action</div>
+                <TableCell
+                  className="thOuter col-sm-1"
+                  style={{ width: "15%" }}
+                >
+                  <div className="igph_title text-center position-relative">
+                    Action
+                  </div>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -154,6 +185,7 @@ const InitiativeList = ({
                     stagesLegend={stagesLegend}
                     setIsEditing={setIsEditing}
                     SetinitiativesID={SetinitiativesID}
+                    setIdeaID={setIdeaID}
                     isEditing={isEditing}
                     startEditing={startEditing}
                     stopEditing={stopEditing}
@@ -174,8 +206,17 @@ const InitiativeList = ({
           </Table>
 
           {/* Pagination for List View */}
-          <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-            <IconButton onClick={handlePreviousPage} disabled={currentPage === 1}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "20px",
+            }}
+          >
+            <IconButton
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
               <ArrowBackIcon />
             </IconButton>
             <Typography sx={{ margin: "0 10px", alignSelf: "center" }}>
@@ -203,7 +244,7 @@ const InitiativeList = ({
                 sx={{
                   backgroundColor: "#e7edf0",
                   borderTop: "5px solid #3f51b5",
-                  borderBottom: "none"
+                  borderBottom: "none",
                 }}
                 className="card-list-container"
               >
@@ -234,13 +275,17 @@ const InitiativeList = ({
                   </div>
                   <div className="card-container">
                     {dashboardData2?.filter((initiative) =>
-                      initiative?.title?.toLowerCase().includes(searchTermOnTime?.toLowerCase())
+                      initiative?.title
+                        ?.toLowerCase()
+                        .includes(searchTermOnTime?.toLowerCase())
                     ).length === 0 ? (
                       <p>There are no items to show in this view.</p>
                     ) : (
                       dashboardData2
                         ?.filter((initiative) =>
-                          initiative?.title?.toLowerCase().includes(searchTermOnTime?.toLowerCase())
+                          initiative?.title
+                            ?.toLowerCase()
+                            .includes(searchTermOnTime?.toLowerCase())
                         )
                         .map((initiative) => (
                           <InitiativeCard
@@ -259,9 +304,17 @@ const InitiativeList = ({
                   </div>
 
                   {/* Pagination for On Time initiatives */}
-                  <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "20px",
+                    }}
+                  >
                     <IconButton
-                      onClick={() => setCurrentCardPage2((prev) => Math.max(prev - 1, 1))}
+                      onClick={() =>
+                        setCurrentCardPage2((prev) => Math.max(prev - 1, 1))
+                      }
                       disabled={currentCardPage2 === 1}
                     >
                       <ArrowBackIcon />
@@ -271,7 +324,10 @@ const InitiativeList = ({
                     </Typography>
                     <IconButton
                       onClick={() => setCurrentCardPage2((prev) => prev + 1)}
-                      disabled={dashboardData2.length == 0 || dashboardData2.length % 5 !== 0}
+                      disabled={
+                        dashboardData2.length == 0 ||
+                        dashboardData2.length % 5 !== 0
+                      }
                     >
                       <ArrowForwardIcon />
                     </IconButton>
@@ -286,7 +342,7 @@ const InitiativeList = ({
                 sx={{
                   backgroundColor: "#e7edf0",
                   borderTop: "5px solid #f55d30",
-                  borderBottom: "none"
+                  borderBottom: "none",
                 }}
                 className="card-list-container"
               >
@@ -317,7 +373,9 @@ const InitiativeList = ({
                   </div>
                   <div className="card-container">
                     {dashboardData3?.filter((initiative) =>
-                      initiative?.title?.toLowerCase().includes(searchTermDelayed?.toLowerCase())
+                      initiative?.title
+                        ?.toLowerCase()
+                        .includes(searchTermDelayed?.toLowerCase())
                     ).length === 0 ? (
                       <p>There are no items to show in this view.</p>
                     ) : (
@@ -344,9 +402,17 @@ const InitiativeList = ({
                   </div>
 
                   {/* Pagination for Delayed initiatives */}
-                  <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "20px",
+                    }}
+                  >
                     <IconButton
-                      onClick={() => setCurrentCardPage3((prev) => Math.max(prev - 1, 1))}
+                      onClick={() =>
+                        setCurrentCardPage3((prev) => Math.max(prev - 1, 1))
+                      }
                       disabled={currentCardPage3 === 1}
                     >
                       <ArrowBackIcon />
@@ -356,7 +422,10 @@ const InitiativeList = ({
                     </Typography>
                     <IconButton
                       onClick={() => setCurrentCardPage3((prev) => prev + 1)}
-                      disabled={dashboardData3.length == 0 || dashboardData3.length % 5 !== 0}
+                      disabled={
+                        dashboardData3.length == 0 ||
+                        dashboardData3.length % 5 !== 0
+                      }
                     >
                       <ArrowForwardIcon />
                     </IconButton>
@@ -371,7 +440,7 @@ const InitiativeList = ({
                 sx={{
                   backgroundColor: "#e7edf0",
                   borderTop: "5px solid #f5c330",
-                  borderBottom: "none"
+                  borderBottom: "none",
                 }}
                 className="card-list-container"
               >
@@ -402,13 +471,17 @@ const InitiativeList = ({
                   </div>
                   <div className="card-container">
                     {dashboardData1?.filter((initiative) =>
-                      initiative?.title?.toLowerCase().includes(searchTermDraft?.toLowerCase())
+                      initiative?.title
+                        ?.toLowerCase()
+                        .includes(searchTermDraft?.toLowerCase())
                     ).length === 0 ? (
                       <p>There are no items to show in this view.</p>
                     ) : (
                       dashboardData1
                         ?.filter((initiative) =>
-                          initiative?.title?.toLowerCase().includes(searchTermDraft?.toLowerCase())
+                          initiative?.title
+                            ?.toLowerCase()
+                            .includes(searchTermDraft?.toLowerCase())
                         )
                         .map((initiative) => (
                           <InitiativeCard2
@@ -428,9 +501,17 @@ const InitiativeList = ({
 
                   {/* Pagination for Draft initiatives */}
                   {/* Pagination for Draft initiatives */}
-                  <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "20px",
+                    }}
+                  >
                     <IconButton
-                      onClick={() => setCurrentCardPage1((prev) => Math.max(prev - 1, 1))}
+                      onClick={() =>
+                        setCurrentCardPage1((prev) => Math.max(prev - 1, 1))
+                      }
                       disabled={currentCardPage1 === 1} // Disable if on the first page
                     >
                       <ArrowBackIcon />
@@ -440,7 +521,10 @@ const InitiativeList = ({
                     </Typography>
                     <IconButton
                       onClick={() => setCurrentCardPage1((prev) => prev + 1)}
-                      disabled={dashboardData1.length === 0 || dashboardData1.length % 5 !== 0} // Disable if dashboardData1 is null
+                      disabled={
+                        dashboardData1.length === 0 ||
+                        dashboardData1.length % 5 !== 0
+                      } // Disable if dashboardData1 is null
                     >
                       <ArrowForwardIcon />
                     </IconButton>

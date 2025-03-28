@@ -499,6 +499,7 @@ const InitiativeManagement = () => {
             totalPages={totalPages}
             setImage={setImage}
             image={image}
+            setIdeaID={setIdeaID}
           />
 
           {/* {isListView && (
